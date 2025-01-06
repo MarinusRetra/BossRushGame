@@ -5,6 +5,13 @@ namespace BossRush.FiniteStateMachine.Behaviors
     /// </summary>
     public class State : IState
     {
+        protected StateMachine Machine;
+
+        public State(StateMachine machine)
+        {
+            Machine = machine;
+        }
+
         public virtual void Enter()
         { }
 
