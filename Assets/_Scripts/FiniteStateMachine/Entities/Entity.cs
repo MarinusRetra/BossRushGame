@@ -21,9 +21,10 @@ namespace BossRush.FiniteStateMachine.Entities
 
         // finite state machine attributes
         protected BlackboardReference BlackboardRef;
-        protected StateMachine Machine;
+        public StateMachine Machine;
 
         // TODO: Standard behaviors
+
 
         // virtual standard unity events
         protected virtual void Start() { Initialize(); }
@@ -35,7 +36,7 @@ namespace BossRush.FiniteStateMachine.Entities
         protected virtual void OnDisable() { }
         protected virtual void OnDestroy() { }
 
-        protected virtual void Initialize()
+        public virtual void Initialize()
         {
             // Set all the component references with the entities'
             BlackboardRef = new BlackboardReference

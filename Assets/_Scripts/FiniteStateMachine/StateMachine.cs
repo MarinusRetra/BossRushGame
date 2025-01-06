@@ -68,8 +68,6 @@ namespace BossRush.FiniteStateMachine
             _currentState?.Exit();
             _currentState = newState;
             _currentState.Enter();
-
-            Debug.Log($"Set the new state to: {_currentState.GetType().Name}");
         }
 
         public void SetNavMeshAgent(NavMeshAgent agent)
@@ -83,6 +81,7 @@ namespace BossRush.FiniteStateMachine
 
         public BlackboardReference GetBlackboardReference() => _blackboardReference;
         public Entity GetEntity() => _owner;
+        public IState GetCurrentState() => _currentState;
 
         #endregion
 
