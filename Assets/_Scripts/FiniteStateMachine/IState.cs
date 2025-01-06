@@ -1,5 +1,10 @@
 namespace BossRush.FiniteStateMachine
 {
+    /// <summary>
+    /// A blueprint interface for the State to inherit from.
+    /// 
+    /// Checkout the implementation at <see cref="Behaviors.State"/>.
+    /// </summary>
     public interface IState
     {
         /// <summary>
