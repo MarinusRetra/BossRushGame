@@ -1,3 +1,4 @@
+using BossRush.FiniteStateMachine.Entities;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -26,19 +27,23 @@ namespace BossRush.FiniteStateMachine
 
         // Cached components
         private BlackboardReference _blackboardReference;
+        private readonly Entity _owner;
 
         /// <summary>
         /// Constructor to initialize the blackboard references from the owning entity.
         /// </summary>
         /// <param name="owner">The entity that owns this state machine.</param>
         /// <param name="componentRef">The component ref that got initialized from said entity.</param>
-        public StateMachine(GameObject owner, BlackboardReference componentRef)
+        public StateMachine(Entity owner, BlackboardReference componentRef)
         {
             // set the blackboard references to cache them
+            _blackboardReference = componentRef;
+
             _blackboardReference.Transform = owner.transform;
             _blackboardReference.Rigidbody = owner.GetComponent<Rigidbody>();
             _blackboardReference.Animator = owner.GetComponent<Animator>();
             _blackboardReference.Collider = owner.GetComponentInParent<Collider>();
+            _owner = owner;
         }
 
         public void Update()
@@ -74,15 +79,17 @@ namespace BossRush.FiniteStateMachine
 
         #endregion
 
+        #region StateMachine Getters
+
+        public BlackboardReference GetBlackboardReference() => _blackboardReference;
+        public Entity GetEntity() => _owner;
+
+        #endregion
+
         public void ResetToPreviousState()
         {
             if (_previousState != null)
                 SetState(_previousState);
-        }
-
-        public BlackboardReference GetBlackboardReference()
-        {
-            return _blackboardReference;
         }
     }
 }
