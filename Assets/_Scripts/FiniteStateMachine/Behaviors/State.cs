@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace BossRush.FiniteStateMachine.Behaviors
 {
     /// <summary>
