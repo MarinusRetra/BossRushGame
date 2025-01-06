@@ -14,7 +14,7 @@ namespace BossRush.FiniteStateMachine.Entities
     {
         [field: Header("Standard Entity Component Attributes")]
         [field: SerializeField] public Transform Transform { get; set; }
-        [field: SerializeField] public Rigidbody Rigidbody { get; set; }
+        [field: SerializeField] public Rigidbody Body { get; set; }
         [field: SerializeField] public Collider Collider { get; set; }
         [field: SerializeField] public NavMeshAgent NavAgent { get; set; }
         [field: SerializeField] public Animator Animator { get; protected set; }
@@ -44,7 +44,7 @@ namespace BossRush.FiniteStateMachine.Entities
                 Animator = Animator,
                 Collider = Collider,
                 NavMeshAgent = NavAgent,
-                Rigidbody = Rigidbody
+                Rigidbody = Body
             };
 
             // After that initialize the StateMachine
