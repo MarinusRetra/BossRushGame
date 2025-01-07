@@ -74,18 +74,49 @@ namespace BossRush.Utility
 
     #region Menus
 
+    /// <summary>
+    /// Container for the main menu UI elements and layout.
+    /// </summary>
     [System.Serializable]
     public struct MainMenu
     {
+        /// <summary>
+        /// The background panel of the main menu.
+        /// </summary>
+        [Header("Core Components")]
+        [Tooltip("Main background panel container")]
         public Panel Background;
+
+        /// <summary>
+        /// The title text display of the main menu.
+        /// </summary>
+        [Tooltip("Title text displayed at the top of the menu")]
         public Label Title;
+
+        /// <summary>
+        /// The version text display of the game.
+        /// </summary>
+        [Tooltip("Version number text display")]
         public Label Version;
 
-        [Space]
-        public InputField InputField;
+        /// <summary>
+        /// Server purpose input field for the menu to join other servers.
+        /// </summary>
+        [Header("Input Fields")]
+        [Tooltip("Server input field for joining servers")]
+        public InputField ServerInputField;
+
+        /// <summary>
+        /// Input field specifically for the player's name.
+        /// </summary>
+        [Tooltip("Input field for entering the player's name")]
         public InputField PlayerNameField;
 
-        [Space]
+        /// <summary>
+        /// Array of interactive buttons in the main menu.
+        /// </summary>
+        [Header("Navigation")]
+        [Tooltip("Collection of menu buttons (Play, Options, Quit, etc.)")]
         public Button[] Buttons;
     }
 
@@ -99,7 +130,7 @@ namespace BossRush.Utility
         // We utilize the OnValidate method to simplify setting text and/or colors
         private void OnValidate()
         {
-            // Change the main menu's title attributes, such as the text and color
+            // Change the main menu's title attributes, such as the text, alignment and color
             if (MainMenu.Title.TextComponent != null)
             {
                 MainMenu.Title.TextComponent.text = MainMenu.Title.Text;
