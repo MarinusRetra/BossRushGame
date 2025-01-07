@@ -4,7 +4,9 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "FiniteStateMachine"
+        "BossRush.FiniteStateMachine",
+        "BossRush.Utility",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [
         "Editor"

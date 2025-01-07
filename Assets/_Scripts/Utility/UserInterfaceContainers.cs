@@ -128,7 +128,7 @@ namespace BossRush.Utility
         public MainMenu MainMenu;
 
         // We utilize the OnValidate method to simplify setting text and/or colors
-        private void OnValidate()
+        public void OnValidate()
         {
             // Change the main menu's title attributes, such as the text, alignment and color
             if (MainMenu.Title.TextComponent != null)
