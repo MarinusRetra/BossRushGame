@@ -1,5 +1,5 @@
 {
-    "name": "FiniteStateMachine",
+    "name": "BossRush.FiniteStateMachine",
     "rootNamespace": "BossRush.FiniteStateMachine",
     "references": [],
     "includePlatforms": [],
