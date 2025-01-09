@@ -61,7 +61,6 @@ namespace BossRush.Controllers
             Debug.Log("Input_JumpEventCancelled");
         }
 
-
         private void Input_CrouchEventCancelled()
         {
             Debug.Log("Input_CrouchEventCancelled");

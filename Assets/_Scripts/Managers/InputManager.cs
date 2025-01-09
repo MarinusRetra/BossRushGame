@@ -11,9 +11,9 @@ namespace BossRush.Managers
     public class InputManager : Singleton<InputManager>, PlayerInputSystem.IPlayerActions, PlayerInputSystem.IUIActions
     {
         //Caches the input system, PlayerActions and UiActions
-        private PlayerInputSystem InputSystem;
-        private PlayerInputSystem.PlayerActions PlayerActions;
-        private PlayerInputSystem.UIActions UI;
+        public PlayerInputSystem InputSystem;
+        public PlayerInputSystem.PlayerActions Player;
+        public PlayerInputSystem.UIActions UI;
 
 
         //These events are called in the OnEvent functions
@@ -43,46 +43,49 @@ namespace BossRush.Managers
             { 
                 InputSystem = new PlayerInputSystem();
 
-                PlayerActions = InputSystem.Player; //Reference naar de Player op lijn
-                UI = InputSystem.UI; //Reference naar de UI van PlayerInputSystem op lijn 508
+                Player = InputSystem.Player; // Reference naar de Player op lijn
+                UI = InputSystem.UI; // Reference naar de UI van PlayerInputSystem op lijn 508
 
-                //SetCallbacks maps the events from the InputSystem to the functions in this script,
-                //so when an event is called in the input system the corresponding function here is called.
-                PlayerActions.SetCallbacks(this);
+                // SetCallbacks maps the events from the InputSystem to the functions in this script,
+                // so when an event is called in the input system the corresponding function here is called.
+                Player.SetCallbacks(this);
                 UI.SetCallbacks(this);
-                //You have to call it twice because UI and PlayerActions are two different interfaces.
+                // You have to call it twice because UI and PlayerActions are two different interfaces.
 
                 EnablePlayerActions();
             }
         }
 
-        //These two functions are used to make sure only one input mapping is enabled at a time.
+        // These two functions are used to make sure only one input mapping is enabled at a time.
         public void EnablePlayerActions()
         { 
-            PlayerActions.Enable();
+            Player.Enable();
             UI.Disable();
         }
 
         public void EnableUIActions()
         { 
-            PlayerActions.Disable();
+            Player.Disable();
             UI.Enable();
         }
 
-        //PlayerAction functions
+        // PlayerAction functions
         public void OnMove(InputAction.CallbackContext context)
         {
-            MoveEvent?.Invoke(context.ReadValue<Vector2>());
+            if (context.phase == InputActionPhase.Performed)
+                MoveEvent?.Invoke(context.ReadValue<Vector2>());
         }
 
         public void OnLook(InputAction.CallbackContext context)
         {
-            LookEvent?.Invoke(context.ReadValue<Vector2>());
+            if (context.phase == InputActionPhase.Performed)
+                LookEvent?.Invoke(context.ReadValue<Vector2>());
         }
 
         public void OnBasic_Attack(InputAction.CallbackContext context)
         {
-            BasicAttackEvent?.Invoke();
+            if (context.phase == InputActionPhase.Performed)
+                BasicAttackEvent?.Invoke();
         }
 
         public void OnCrouch(InputAction.CallbackContext context)
@@ -104,7 +107,7 @@ namespace BossRush.Managers
                 JumpEvent?.Invoke();
             }
 
-            if (context.phase == InputActionPhase.Canceled)
+            if(context.phase == InputActionPhase.Canceled)
             {
                 JumpCancelledEvent?.Invoke();
             }
@@ -112,31 +115,44 @@ namespace BossRush.Managers
 
         public void OnAbilty1(InputAction.CallbackContext context)
         {
-            Ability1Event?.Invoke();
+            if (context.phase == InputActionPhase.Performed)
+                Ability1Event?.Invoke();
         }
 
         public void OnAbilty2(InputAction.CallbackContext context)
         {
-            Ability2Event?.Invoke();
+            if (context.phase == InputActionPhase.Performed)
+                Ability2Event?.Invoke();
         }
 
         public void OnAbility3(InputAction.CallbackContext context)
         {
-            Ability3Event?.Invoke();
+            if (context.phase == InputActionPhase.Performed)
+                Ability3Event?.Invoke();
         }
 
         public void OnSprint(InputAction.CallbackContext context)
         {
-            SprintEvent?.Invoke();
+            if (context.phase == InputActionPhase.Performed)
+                SprintEvent?.Invoke();
+        }
+        public void OnPause(InputAction.CallbackContext context)// Pause event is een PlayerAction
+        {
+            if (context.phase == InputActionPhase.Performed)
+            {
+                PauseEvent?.Invoke();
+                EnableUIActions();
+            }
         }
 
-        //UIAction functions
+        // UIAction functions
         public void OnNavigate(InputAction.CallbackContext context)
         {
-            NavigateEvent?.Invoke(context.ReadValue<Vector2>());
+            if (context.phase == InputActionPhase.Performed)
+                NavigateEvent?.Invoke(context.ReadValue<Vector2>());
         }
 
-        public void OnCancel(InputAction.CallbackContext context)
+        public void OnResume(InputAction.CallbackContext context)
         {
             if (context.phase == InputActionPhase.Performed)
             {
@@ -147,21 +163,15 @@ namespace BossRush.Managers
 
         public void OnPoint(InputAction.CallbackContext context)
         {
-            PointEvent?.Invoke(context.ReadValue<Vector2>());
+            if (context.phase == InputActionPhase.Performed)
+                PointEvent?.Invoke(context.ReadValue<Vector2>());
         }
 
         public void OnClick(InputAction.CallbackContext context)
         {
-            ClickEvent?.Invoke();
+            if (context.phase == InputActionPhase.Performed)
+                ClickEvent?.Invoke();
         }
 
-        public void OnPause(InputAction.CallbackContext context)
-        {
-            if (context.phase == InputActionPhase.Performed)
-            {
-                PauseEvent?.Invoke();
-                EnableUIActions();
-            }
-        }
     }
 }
