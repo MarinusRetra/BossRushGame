@@ -1,8 +1,9 @@
 {
-    "name": "Utility",
-    "rootNamespace": "BossRush.Utility",
+    "name": "BossRush.Managers",
+    "rootNamespace": "BossRush.Managers",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c"
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:ebd20b370e4beff4497589deb9a1ba77"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

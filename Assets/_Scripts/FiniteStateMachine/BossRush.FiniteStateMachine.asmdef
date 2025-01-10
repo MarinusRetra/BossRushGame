@@ -1,11 +1,7 @@
 {
-    "name": "Managers",
-    "rootNamespace": "BossRush.Managers",
-    "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:dc04f38471c3a459fb4d31124ee9127d",
-        "GUID:876420087ce02554aa63ddd158058334"
-    ],
+    "name": "BossRush.FiniteStateMachine",
+    "rootNamespace": "BossRush.FiniteStateMachine",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

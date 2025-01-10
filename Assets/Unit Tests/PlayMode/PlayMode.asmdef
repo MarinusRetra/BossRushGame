@@ -6,8 +6,8 @@
         "UnityEditor.TestRunner",
         "Unity.InputSystem",
         "Unity.InputSystem.TestFramework",
-        "Managers",
-        "Utility"
+        "BossRush.Managers",
+        "BossRush.Utility"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
