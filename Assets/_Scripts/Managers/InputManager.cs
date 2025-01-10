@@ -12,8 +12,8 @@ namespace BossRush.Managers
     {
         //Caches the input system, PlayerActions and UiActions
         public PlayerInputSystem InputSystem;
-        public PlayerInputSystem.PlayerActions Player;
-        public PlayerInputSystem.UIActions UI;
+        public PlayerInputSystem.PlayerActions Player_Actions;
+        public PlayerInputSystem.UIActions UI_Actions;
 
 
         //These events are called in the OnEvent functions
@@ -23,8 +23,8 @@ namespace BossRush.Managers
         public event Action BasicAttackEvent;
         public event Action CrouchEvent;
         public event Action CrouchEventCancelled;
-        public event Action Ability1Event;
-        public event Action Ability2Event;
+        public event Action PrimaryEvent;
+        public event Action SecondaryEvent;
         public event Action Ability3Event;
         public event Action SprintEvent;
         public event Action PauseEvent;
@@ -43,14 +43,14 @@ namespace BossRush.Managers
             { 
                 InputSystem = new PlayerInputSystem();
 
-                Player = InputSystem.Player; // Reference naar de Player op lijn
-                UI = InputSystem.UI; // Reference naar de UI van PlayerInputSystem op lijn 508
+                Player_Actions = InputSystem.Player;
+                UI_Actions = InputSystem.UI;
 
                 // SetCallbacks maps the events from the InputSystem to the functions in this script,
                 // so when an event is called in the input system the corresponding function here is called.
-                Player.SetCallbacks(this);
-                UI.SetCallbacks(this);
-                // You have to call it twice because UI and PlayerActions are two different interfaces.
+                Player_Actions.SetCallbacks(this);
+                UI_Actions.SetCallbacks(this);
+                // You have to call it twice because UIActions and PlayerActions are two different interfaces.
 
                 EnablePlayerActions();
             }
@@ -59,14 +59,14 @@ namespace BossRush.Managers
         // These two functions are used to make sure only one input mapping is enabled at a time.
         public void EnablePlayerActions()
         { 
-            Player.Enable();
-            UI.Disable();
+            Player_Actions.Enable();
+            UI_Actions.Disable();
         }
 
         public void EnableUIActions()
         { 
-            Player.Disable();
-            UI.Enable();
+            Player_Actions.Disable();
+            UI_Actions.Enable();
         }
 
         // PlayerAction functions
@@ -113,19 +113,19 @@ namespace BossRush.Managers
             }
         }
 
-        public void OnAbilty1(InputAction.CallbackContext context)
+        public void OnPrimary(InputAction.CallbackContext context)
         {
             if (context.phase == InputActionPhase.Performed)
-                Ability1Event?.Invoke();
+                PrimaryEvent?.Invoke();
         }
 
-        public void OnAbilty2(InputAction.CallbackContext context)
+        public void OnSecondary(InputAction.CallbackContext context)
         {
             if (context.phase == InputActionPhase.Performed)
-                Ability2Event?.Invoke();
+                SecondaryEvent?.Invoke();
         }
 
-        public void OnAbility3(InputAction.CallbackContext context)
+        public void OnTertiary(InputAction.CallbackContext context)
         {
             if (context.phase == InputActionPhase.Performed)
                 Ability3Event?.Invoke();
@@ -136,7 +136,7 @@ namespace BossRush.Managers
             if (context.phase == InputActionPhase.Performed)
                 SprintEvent?.Invoke();
         }
-        public void OnPause(InputAction.CallbackContext context)// Pause event is een PlayerAction
+        public void OnPause(InputAction.CallbackContext context)
         {
             if (context.phase == InputActionPhase.Performed)
             {
@@ -172,6 +172,5 @@ namespace BossRush.Managers
             if (context.phase == InputActionPhase.Performed)
                 ClickEvent?.Invoke();
         }
-
     }
 }

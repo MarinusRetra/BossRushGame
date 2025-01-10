@@ -2,7 +2,6 @@ using NUnit.Framework;
 using UnityEngine;
 using BossRush.Managers;
 using UnityEngine.InputSystem;
-using BossRush.Utility;
 
 namespace BossRush
 {
@@ -17,7 +16,7 @@ namespace BossRush
         [SetUp]
         public void SetUp()
         {
-            //Used for simulating key presses and mouse movements
+            // Used for simulating key presses and mouse movements
             keyboard = InputSystem.AddDevice<Keyboard>();
             mouse = InputSystem.AddDevice<Mouse>();
 
@@ -28,8 +27,8 @@ namespace BossRush
 
             // Subscribes this scripts functions to the events in InputManager.
             input.MoveEvent += Input_MoveEvent;
-            input.Ability1Event += Input_Ability1Event;
-            input.Ability2Event += Input_Ability2Event;
+            input.PrimaryEvent += Input_Ability1Event;
+            input.SecondaryEvent += Input_Ability2Event;
             input.Ability3Event += Input_Ability3Event;
             input.BasicAttackEvent += Input_BasicAttackEvent;
             input.CrouchEvent += Input_CrouchEvent;
@@ -43,9 +42,6 @@ namespace BossRush
             input.NavigateEvent += UIInput_NavigateEvent;
             input.ResumeEvent += UIInput_ResumeEvent;
             input.ClickEvent += UIInput_ClickEvent;
-
-            input.UI.SetCallbacks(input);
-            input.Player.SetCallbacks(input);
 
             input.EnablePlayerActions();
         }
@@ -74,12 +70,11 @@ namespace BossRush
             Press(mouse.leftButton); // 15 
             Press(keyboard.escapeKey); // 16 
 
-
             Debug.Log("Ending InvokeEventsWhenInputIsDetected" + " inputAmount: " + inputAmount);
             Assert.AreEqual(16, inputAmount); 
             
             // Every input detection calls one event except spaceKey and leftCTRLKey which call two
-            // so inputAmount is 16 if all input is detected
+            // so inputAmount is 16 if all input is detected correctly
         }
 
         [Test]
@@ -90,12 +85,12 @@ namespace BossRush
             Press(keyboard.escapeKey); // Pressing escape causes the active ActionMap to change to UIActions
             Release(keyboard.escapeKey);
 
-            swapAmount += input.UI.enabled ? 1 : 0;
+            swapAmount += input.UI_Actions.enabled ? 1 : 0;
 
             Press(keyboard.escapeKey); // Pressing escape again causes the active ActionMap to change back to PlayerActions
             Release(keyboard.escapeKey);
 
-            swapAmount += input.Player.enabled ? 1 : 0;
+            swapAmount += input.Player_Actions.enabled ? 1 : 0;
 
             Debug.Log($"Ending ActionMapSwapsOnEscapePress swapAmount: {swapAmount}");
 
@@ -105,10 +100,10 @@ namespace BossRush
         [TearDown]
         public void CleanUp()
         {
-            //Unsubscribes from the InputManager events
+            // Unsubscribes from the InputManager events
             input.MoveEvent -= Input_MoveEvent;
-            input.Ability1Event -= Input_Ability1Event;
-            input.Ability2Event -= Input_Ability2Event;
+            input.PrimaryEvent -= Input_Ability1Event;
+            input.SecondaryEvent -= Input_Ability2Event;
             input.Ability3Event -= Input_Ability3Event;
             input.BasicAttackEvent -= Input_BasicAttackEvent;
             input.CrouchEvent -= Input_CrouchEvent;

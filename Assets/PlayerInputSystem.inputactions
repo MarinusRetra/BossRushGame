@@ -51,7 +51,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Abilty1",
+                    "name": "Primary",
                     "type": "Button",
                     "id": "2776c80d-3c14-4091-8c56-d04ced07a2b0",
                     "expectedControlType": "",
@@ -60,7 +60,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Abilty2",
+                    "name": "Secondary",
                     "type": "Button",
                     "id": "b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba",
                     "expectedControlType": "",
@@ -69,7 +69,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Ability3",
+                    "name": "Tertiary",
                     "type": "Button",
                     "id": "852140f2-7766-474d-8707-702459ba45f3",
                     "expectedControlType": "",
@@ -313,7 +313,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Abilty2",
+                    "action": "Secondary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -324,7 +324,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Abilty2",
+                    "action": "Secondary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -379,7 +379,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Abilty1",
+                    "action": "Primary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -390,7 +390,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Abilty1",
+                    "action": "Primary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -401,7 +401,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Ability3",
+                    "action": "Tertiary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -412,7 +412,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Ability3",
+                    "action": "Tertiary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

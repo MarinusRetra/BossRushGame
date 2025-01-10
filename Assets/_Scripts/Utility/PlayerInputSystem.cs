@@ -75,7 +75,7 @@ namespace BossRush.Utility
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Abilty1"",
+                    ""name"": ""Primary"",
                     ""type"": ""Button"",
                     ""id"": ""2776c80d-3c14-4091-8c56-d04ced07a2b0"",
                     ""expectedControlType"": """",
@@ -84,7 +84,7 @@ namespace BossRush.Utility
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Abilty2"",
+                    ""name"": ""Secondary"",
                     ""type"": ""Button"",
                     ""id"": ""b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba"",
                     ""expectedControlType"": """",
@@ -93,7 +93,7 @@ namespace BossRush.Utility
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Ability3"",
+                    ""name"": ""Tertiary"",
                     ""type"": ""Button"",
                     ""id"": ""852140f2-7766-474d-8707-702459ba45f3"",
                     ""expectedControlType"": """",
@@ -337,7 +337,7 @@ namespace BossRush.Utility
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Abilty2"",
+                    ""action"": ""Secondary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -348,7 +348,7 @@ namespace BossRush.Utility
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Abilty2"",
+                    ""action"": ""Secondary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -403,7 +403,7 @@ namespace BossRush.Utility
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Abilty1"",
+                    ""action"": ""Primary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -414,7 +414,7 @@ namespace BossRush.Utility
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Abilty1"",
+                    ""action"": ""Primary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -425,7 +425,7 @@ namespace BossRush.Utility
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Ability3"",
+                    ""action"": ""Tertiary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -436,7 +436,7 @@ namespace BossRush.Utility
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Ability3"",
+                    ""action"": ""Tertiary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -920,9 +920,9 @@ namespace BossRush.Utility
             m_Player_Basic_Attack = m_Player.FindAction("Basic_Attack", throwIfNotFound: true);
             m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-            m_Player_Abilty1 = m_Player.FindAction("Abilty1", throwIfNotFound: true);
-            m_Player_Abilty2 = m_Player.FindAction("Abilty2", throwIfNotFound: true);
-            m_Player_Ability3 = m_Player.FindAction("Ability3", throwIfNotFound: true);
+            m_Player_Primary = m_Player.FindAction("Primary", throwIfNotFound: true);
+            m_Player_Secondary = m_Player.FindAction("Secondary", throwIfNotFound: true);
+            m_Player_Tertiary = m_Player.FindAction("Tertiary", throwIfNotFound: true);
             m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
             m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
             // UI
@@ -1003,9 +1003,9 @@ namespace BossRush.Utility
         private readonly InputAction m_Player_Basic_Attack;
         private readonly InputAction m_Player_Crouch;
         private readonly InputAction m_Player_Jump;
-        private readonly InputAction m_Player_Abilty1;
-        private readonly InputAction m_Player_Abilty2;
-        private readonly InputAction m_Player_Ability3;
+        private readonly InputAction m_Player_Primary;
+        private readonly InputAction m_Player_Secondary;
+        private readonly InputAction m_Player_Tertiary;
         private readonly InputAction m_Player_Sprint;
         private readonly InputAction m_Player_Pause;
         public struct PlayerActions
@@ -1017,9 +1017,9 @@ namespace BossRush.Utility
             public InputAction @Basic_Attack => m_Wrapper.m_Player_Basic_Attack;
             public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
             public InputAction @Jump => m_Wrapper.m_Player_Jump;
-            public InputAction @Abilty1 => m_Wrapper.m_Player_Abilty1;
-            public InputAction @Abilty2 => m_Wrapper.m_Player_Abilty2;
-            public InputAction @Ability3 => m_Wrapper.m_Player_Ability3;
+            public InputAction @Primary => m_Wrapper.m_Player_Primary;
+            public InputAction @Secondary => m_Wrapper.m_Player_Secondary;
+            public InputAction @Tertiary => m_Wrapper.m_Player_Tertiary;
             public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
             public InputAction @Pause => m_Wrapper.m_Player_Pause;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1046,15 +1046,15 @@ namespace BossRush.Utility
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @Abilty1.started += instance.OnAbilty1;
-                @Abilty1.performed += instance.OnAbilty1;
-                @Abilty1.canceled += instance.OnAbilty1;
-                @Abilty2.started += instance.OnAbilty2;
-                @Abilty2.performed += instance.OnAbilty2;
-                @Abilty2.canceled += instance.OnAbilty2;
-                @Ability3.started += instance.OnAbility3;
-                @Ability3.performed += instance.OnAbility3;
-                @Ability3.canceled += instance.OnAbility3;
+                @Primary.started += instance.OnPrimary;
+                @Primary.performed += instance.OnPrimary;
+                @Primary.canceled += instance.OnPrimary;
+                @Secondary.started += instance.OnSecondary;
+                @Secondary.performed += instance.OnSecondary;
+                @Secondary.canceled += instance.OnSecondary;
+                @Tertiary.started += instance.OnTertiary;
+                @Tertiary.performed += instance.OnTertiary;
+                @Tertiary.canceled += instance.OnTertiary;
                 @Sprint.started += instance.OnSprint;
                 @Sprint.performed += instance.OnSprint;
                 @Sprint.canceled += instance.OnSprint;
@@ -1080,15 +1080,15 @@ namespace BossRush.Utility
                 @Jump.started -= instance.OnJump;
                 @Jump.performed -= instance.OnJump;
                 @Jump.canceled -= instance.OnJump;
-                @Abilty1.started -= instance.OnAbilty1;
-                @Abilty1.performed -= instance.OnAbilty1;
-                @Abilty1.canceled -= instance.OnAbilty1;
-                @Abilty2.started -= instance.OnAbilty2;
-                @Abilty2.performed -= instance.OnAbilty2;
-                @Abilty2.canceled -= instance.OnAbilty2;
-                @Ability3.started -= instance.OnAbility3;
-                @Ability3.performed -= instance.OnAbility3;
-                @Ability3.canceled -= instance.OnAbility3;
+                @Primary.started -= instance.OnPrimary;
+                @Primary.performed -= instance.OnPrimary;
+                @Primary.canceled -= instance.OnPrimary;
+                @Secondary.started -= instance.OnSecondary;
+                @Secondary.performed -= instance.OnSecondary;
+                @Secondary.canceled -= instance.OnSecondary;
+                @Tertiary.started -= instance.OnTertiary;
+                @Tertiary.performed -= instance.OnTertiary;
+                @Tertiary.canceled -= instance.OnTertiary;
                 @Sprint.started -= instance.OnSprint;
                 @Sprint.performed -= instance.OnSprint;
                 @Sprint.canceled -= instance.OnSprint;
@@ -1234,9 +1234,9 @@ namespace BossRush.Utility
             void OnBasic_Attack(InputAction.CallbackContext context);
             void OnCrouch(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
-            void OnAbilty1(InputAction.CallbackContext context);
-            void OnAbilty2(InputAction.CallbackContext context);
-            void OnAbility3(InputAction.CallbackContext context);
+            void OnPrimary(InputAction.CallbackContext context);
+            void OnSecondary(InputAction.CallbackContext context);
+            void OnTertiary(InputAction.CallbackContext context);
             void OnSprint(InputAction.CallbackContext context);
             void OnPause(InputAction.CallbackContext context);
         }
