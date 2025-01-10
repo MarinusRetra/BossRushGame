@@ -1,8 +1,9 @@
 {
-    "name": "Utility",
-    "rootNamespace": "BossRush.Utility",
+    "name": "BossRush.Controller",
+    "rootNamespace": "BossRush.Controllers",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c"
+        "GUID:7f2419b21defe7e49b7eac876c1af739",
+        "GUID:ebd20b370e4beff4497589deb9a1ba77"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
