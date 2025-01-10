@@ -1,12 +1,26 @@
 using UnityEngine;
 using BossRush.Managers;
+using System;
 
 namespace BossRush.Controllers
 {
     public class PlayerController : MonoBehaviour
     {
+        [SerializeField] Canvas canvas;
+
+        [SerializeField] readonly float sensivityX = 0.5f, sensivityY = 0.8f;
+        private float xRotation, yRotation;
+
+        private Transform playerTransform;
+        [SerializeField] private Transform cameraTransform;
+
         void Start()
         {
+            playerTransform = transform;
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
             //Reference naar de instance van de InputManager singleton
             InputManager input = InputManager.Instance;
 
@@ -31,24 +45,28 @@ namespace BossRush.Controllers
             input.ClickEvent += UI_Click;
         }
 
-        void Update()
-        {
-            
-        }
-
-        //These are called when the corresponding playeractions are called
+        // These are called when the corresponding playeractions are called
         private void Pause()
         {
+            canvas.enabled = true;
             Debug.Log("Input_PauseEvent");
         }
 
         private void Sprint()
         {
-            Debug.Log("Input_SprintEvent");
+            Debug.Log("Sprint");
+
         }
 
         private void Look(Vector2 obj)
         {
+            xRotation += obj.y * sensivityX;
+            yRotation += obj.x * sensivityY;
+
+            // xRotation is a float but we don't need float precision for clamping these values so i use the int version.
+            xRotation = Math.Clamp(xRotation, -19, 19); // This clamp is temporary until we have a seperate camera controller.
+
+            playerTransform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
             Debug.Log("Input_LookEvent");
         }
         private void Jump()
@@ -104,7 +122,7 @@ namespace BossRush.Controllers
         }
         private void UI_Resume()
         {
-            Debug.Log("UIInput_Clickevent");
+           canvas.enabled = false;
         }
         private void UI_Point(Vector2 obj)
         {
