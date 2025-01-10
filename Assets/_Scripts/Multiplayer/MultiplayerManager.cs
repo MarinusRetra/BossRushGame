@@ -146,7 +146,8 @@ namespace BossRush.Multiplayer
         {
             try
             {
-                var queryLobbiesOptions = new QueryLobbiesOptions { 
+                var queryLobbiesOptions = new QueryLobbiesOptions
+                {
                     Filters = new List<QueryFilter>
                     {
                         new QueryFilter(QueryFilter.FieldOptions.AvailableSlots, "1", QueryFilter.OpOptions.GE)
@@ -263,7 +264,7 @@ namespace BossRush.Multiplayer
             {
                 _joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
 
-                NetworkManager.Singleton.StartClient(); 
+                NetworkManager.Singleton.StartClient();
             }
             catch (LobbyServiceException e)
             {
@@ -282,7 +283,7 @@ namespace BossRush.Multiplayer
         {
             try
             {
-                if (_joinedLobby == null) 
+                if (_joinedLobby == null)
                 {
                     Debug.LogError("JoinedLobby is null");
                     return;

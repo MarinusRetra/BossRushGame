@@ -1,14 +1,14 @@
 {
-    "name": "BossRush.Managers",
-    "rootNamespace": "BossRush.Managers",
+    "name": "BossRush.Multiplayer",
+    "rootNamespace": "BossRush.Multiplayer",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c",
         "GUID:ebd20b370e4beff4497589deb9a1ba77",
         "GUID:4fc462806a32aa245a7b28367381bf24",
         "GUID:5540e30183c82e84b954c033c388e06c",
         "GUID:37e17ffe38d86ae48bc3207e83ffef88",
         "GUID:f2d49d9fa7e7eb3418e39723a7d3b92f",
-        "GUID:1491147abca9d7d4bb7105af628b223e"
+        "GUID:1491147abca9d7d4bb7105af628b223e",
+        "GUID:fe25561d224ed4743af4c60938a59d0b"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
