@@ -29,7 +29,7 @@ namespace BossRush
             input.MoveEvent += Input_MoveEvent;
             input.PrimaryEvent += Input_Ability1Event;
             input.SecondaryEvent += Input_Ability2Event;
-            input.Ability3Event += Input_Ability3Event;
+            input.TertiaryEvent += Input_Ability3Event;
             input.BasicAttackEvent += Input_BasicAttackEvent;
             input.CrouchEvent += Input_CrouchEvent;
             input.CrouchEventCancelled += Input_CrouchEventCancelled;
@@ -104,7 +104,7 @@ namespace BossRush
             input.MoveEvent -= Input_MoveEvent;
             input.PrimaryEvent -= Input_Ability1Event;
             input.SecondaryEvent -= Input_Ability2Event;
-            input.Ability3Event -= Input_Ability3Event;
+            input.TertiaryEvent -= Input_Ability3Event;
             input.BasicAttackEvent -= Input_BasicAttackEvent;
             input.CrouchEvent -= Input_CrouchEvent;
             input.CrouchEventCancelled -= Input_CrouchEventCancelled;
