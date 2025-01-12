@@ -73,12 +73,8 @@ namespace BossRush.Managers
         // PlayerAction functions
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed)
-                MoveEvent?.Invoke(context.ReadValue<Vector2>());
-            else if (context.phase == InputActionPhase.Canceled)
-                MoveEvent?.Invoke(Vector2.zero);
+            MoveEvent?.Invoke(context.phase == InputActionPhase.Performed ? context.ReadValue<Vector2>() : Vector2.zero);
         }
-
 
         public void OnLook(InputAction.CallbackContext context)
         {
