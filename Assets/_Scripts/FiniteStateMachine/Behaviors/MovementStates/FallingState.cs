@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
 {
-    public class IdleState : State
+    public class FallingState : State
     {
         [SerializeField] PlayerEntity playerEntity;
         InputManager input;
-        public IdleState(StateMachine machine) : base(machine)
+        public FallingState(StateMachine machine) : base(machine)
         { 
             input = InputManager.Instance;
         }
@@ -21,12 +21,14 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
             input.TertiaryEvent += Input_Ability3Event;
             input.BasicAttackEvent += BasicAttack;
             input.CrouchEvent += Crouch;
-            input.JumpEvent += Jump;
-            input.SprintEvent += Sprint;
             input.LookEvent += Look;
             input.PauseEvent += Pause;
 
-            playerEntity.CurrentMoveSpeed = playerEntity.WalkingMoveSpeed;
+        }
+
+        public override void FixedUpdate()
+        {
+
         }
 
         public override void Exit()
@@ -37,27 +39,16 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
             input.TertiaryEvent -= Input_Ability3Event;
             input.BasicAttackEvent -= BasicAttack;
             input.CrouchEvent -= Crouch;
-            input.JumpEvent -= Jump;
-            input.SprintEvent -= Sprint;
             input.LookEvent -= Look;
             input.PauseEvent -= Pause;
         }
+
         private void Pause()
         {
-            Machine.SetState(playerEntity.UIState);
+            throw new NotImplementedException();
         }
 
         private void Look(Vector2 vector)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Sprint()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Jump()
         {
             throw new NotImplementedException();
         }
@@ -91,6 +82,7 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
         {
             throw new NotImplementedException();
         }
+
 
     }
 }

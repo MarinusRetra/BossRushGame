@@ -5,28 +5,31 @@ using UnityEngine;
 
 namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
 {
-    public class IdleState : State
+
+    public class SlidingState : State
     {
         [SerializeField] PlayerEntity playerEntity;
         InputManager input;
-        public IdleState(StateMachine machine) : base(machine)
-        { 
+
+        public SlidingState(StateMachine machine) : base(machine)
+        {
             input = InputManager.Instance;
         }
         public override void Enter()
-        {
+        { 
             input.MoveEvent += Move;
             input.PrimaryEvent += Input_Ability1Event;
             input.SecondaryEvent += Input_Ability2Event;
             input.TertiaryEvent += Input_Ability3Event;
             input.BasicAttackEvent += BasicAttack;
-            input.CrouchEvent += Crouch;
+            input.CrouchEventCancelled += CrouchCancelled;
             input.JumpEvent += Jump;
-            input.SprintEvent += Sprint;
             input.LookEvent += Look;
             input.PauseEvent += Pause;
+        }
+        public override void FixedUpdate()
+        {
 
-            playerEntity.CurrentMoveSpeed = playerEntity.WalkingMoveSpeed;
         }
 
         public override void Exit()
@@ -36,23 +39,18 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
             input.SecondaryEvent -= Input_Ability2Event;
             input.TertiaryEvent -= Input_Ability3Event;
             input.BasicAttackEvent -= BasicAttack;
-            input.CrouchEvent -= Crouch;
+            input.CrouchEventCancelled -= CrouchCancelled;
             input.JumpEvent -= Jump;
-            input.SprintEvent -= Sprint;
             input.LookEvent -= Look;
             input.PauseEvent -= Pause;
         }
-        private void Pause()
-        {
-            Machine.SetState(playerEntity.UIState);
-        }
 
-        private void Look(Vector2 vector)
+        private void Pause()
         {
             throw new NotImplementedException();
         }
 
-        private void Sprint()
+        private void Look(Vector2 vector)
         {
             throw new NotImplementedException();
         }
@@ -62,7 +60,12 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
             throw new NotImplementedException();
         }
 
-        private void Crouch()
+        private void JumpCancelled()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void CrouchCancelled()
         {
             throw new NotImplementedException();
         }

@@ -161,6 +161,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b97c88231f167b940ba212dc5ff637fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Transform>k__BackingField: {fileID: 4258021782973604689}
+  <Body>k__BackingField: {fileID: 4688670444851588469}
+  <Collider>k__BackingField: {fileID: 1146978875218281965}
+  <NavAgent>k__BackingField: {fileID: 0}
+  <Animator>k__BackingField: {fileID: 0}
+  CurrentMoveSpeed: 20
+  JumpHeight: 10
+  CrouchingMoveSpeed: 10
+  WalkingMoveSpeed: 10
+  SprintMoveSpeed: 30
+  SlideMoveSpeed: 40
+  SlideJumpMoveSpeed: 50
 --- !u!1 &6227287253897154510
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,13 +273,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  parentTransform: {fileID: 4258021782973604689}
-  rb: {fileID: 4688670444851588469}
+  playerEntity: {fileID: 6998115114819051198}
   canvas: {fileID: 6428770839366834220, guid: 2f49907765dbb8e48a0b7190c2828780, type: 3}
   sensivityY: 0.5
-  MoveSpeed: 10
-  sprintMultiplier: 3
-  jumpHeight: 20
 --- !u!1001 &1308218480283726196
 PrefabInstance:
   m_ObjectHideFlags: 0
