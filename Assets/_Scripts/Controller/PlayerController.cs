@@ -12,21 +12,12 @@ namespace BossRush.Controllers
 
         InputManager input;
 
-        [SerializeField] private Canvas canvas;
-
-        [Header("Player Movement")]
-
-        float xInput, yInput;
 
         void Start()
         {
             if (!IsOwner)
                 return;
             input = InputManager.Instance;
-
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-
         }
 
         private void FixedUpdate()
@@ -39,7 +30,7 @@ namespace BossRush.Controllers
         [ServerRpc(RequireOwnership = false)]
         public void MovementServerRpc()
         {
-             playerEntity.moveDirection = playerEntity.transform.right * xInput + playerEntity.transform.forward * yInput;
+             playerEntity.moveDirection = playerEntity.transform.right * playerEntity.xInput + playerEntity.transform.forward * playerEntity.yInput;
             
              playerEntity.Body.linearVelocity = playerEntity.CurrentMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0);
         }
@@ -48,13 +39,13 @@ namespace BossRush.Controllers
         // These are called when the corresponding playeraction event is called.
         private void Move(Vector2 obj)
         {
-            xInput = obj.x;
-            yInput = obj.y;
+            playerEntity.xInput = obj.x;
+            playerEntity.yInput = obj.y;
             Debug.Log(obj.x + "" + obj.y);
         }
         private void Pause()
         {
-            canvas.enabled = true;
+            playerEntity.UICanvas.enabled = true;
         }
 
         private void Sprint()
@@ -113,7 +104,7 @@ namespace BossRush.Controllers
         }
         private void UI_Resume()
         {
-           canvas.enabled = false;
+           playerEntity.UICanvas.enabled = false;
         }
         private void UI_Point(Vector2 obj)
         {
@@ -121,70 +112,70 @@ namespace BossRush.Controllers
         private void UI_Navigate(Vector2 obj)
         {
         }
-        private void OnEnable()
-        {
-            input = InputManager.Instance;
+        //private void OnEnable()
+        //{
+        //    input = InputManager.Instance;
+        //
+        //    input.MoveEvent += Move;
+        //    input.PrimaryEvent += Input_Ability1Event;
+        //    input.SecondaryEvent += Input_Ability2Event;
+        //    input.TertiaryEvent += Input_Ability3Event;
+        //    input.BasicAttackEvent += BasicAttack;
+        //    input.CrouchEvent += Crouch;
+        //    input.CrouchEventCancelled += CrouchCancelled;
+        //    input.JumpEvent += Jump;
+        //    input.JumpCancelledEvent += JumpCancelled;
+        //    input.SprintEvent += Sprint;
+        //    input.LookEvent += Look;
+        //    input.PauseEvent += Pause;
+        //    input.SprintEventCancelled += SprintCancelled;
+        //    input.PointEvent += UI_Point;
+        //    input.NavigateEvent += UI_Navigate;
+        //    input.ResumeEvent += UI_Resume;
+        //    input.ClickEvent += UI_Click;
+        //}
 
-            input.MoveEvent += Move;
-            input.PrimaryEvent += Input_Ability1Event;
-            input.SecondaryEvent += Input_Ability2Event;
-            input.TertiaryEvent += Input_Ability3Event;
-            input.BasicAttackEvent += BasicAttack;
-            input.CrouchEvent += Crouch;
-            input.CrouchEventCancelled += CrouchCancelled;
-            input.JumpEvent += Jump;
-            input.JumpCancelledEvent += JumpCancelled;
-            input.SprintEvent += Sprint;
-            input.LookEvent += Look;
-            input.PauseEvent += Pause;
-            input.SprintEventCancelled += SprintCancelled;
-            input.PointEvent += UI_Point;
-            input.NavigateEvent += UI_Navigate;
-            input.ResumeEvent += UI_Resume;
-            input.ClickEvent += UI_Click;
-        }
-
-        private void OnDisable()
-        {
-            input.MoveEvent -= Move;
-            input.PrimaryEvent -= Input_Ability1Event;
-            input.SecondaryEvent -= Input_Ability2Event;
-            input.TertiaryEvent -= Input_Ability3Event;
-            input.BasicAttackEvent -= BasicAttack;
-            input.CrouchEvent -= Crouch;
-            input.CrouchEventCancelled -= CrouchCancelled;
-            input.JumpEvent -= Jump;
-            input.JumpCancelledEvent -= JumpCancelled;
-            input.SprintEvent -= Sprint;
-            input.LookEvent -= Look;
-            input.PauseEvent -= Pause;
-            input.SprintEventCancelled -= SprintCancelled;
-            input.PointEvent -= UI_Point;
-            input.NavigateEvent -= UI_Navigate;
-            input.ResumeEvent -= UI_Resume;
-            input.ClickEvent -= UI_Click;
-        }
-        public override void OnDestroy()
-        {
-            input.MoveEvent -= Move;
-            input.PrimaryEvent -= Input_Ability1Event;
-            input.SecondaryEvent -= Input_Ability2Event;
-            input.TertiaryEvent -= Input_Ability3Event;
-            input.BasicAttackEvent -= BasicAttack;
-            input.CrouchEvent -= Crouch;
-            input.CrouchEventCancelled -= CrouchCancelled;
-            input.JumpEvent -= Jump;
-            input.JumpCancelledEvent -= JumpCancelled;
-            input.SprintEvent -= Sprint;
-            input.LookEvent -= Look;
-            input.PauseEvent -= Pause;
-            input.SprintEventCancelled -= SprintCancelled;
-            input.PointEvent -= UI_Point;
-            input.NavigateEvent -= UI_Navigate;
-            input.ResumeEvent -= UI_Resume;
-            input.ClickEvent -= UI_Click;
-          
-            base.OnDestroy();
-        }
+        //private void OnDisable()
+        //{
+        //    input.MoveEvent -= Move;
+        //    input.PrimaryEvent -= Input_Ability1Event;
+        //    input.SecondaryEvent -= Input_Ability2Event;
+        //    input.TertiaryEvent -= Input_Ability3Event;
+        //    input.BasicAttackEvent -= BasicAttack;
+        //    input.CrouchEvent -= Crouch;
+        //    input.CrouchEventCancelled -= CrouchCancelled;
+        //    input.JumpEvent -= Jump;
+        //    input.JumpCancelledEvent -= JumpCancelled;
+        //    input.SprintEvent -= Sprint;
+        //    input.LookEvent -= Look;
+        //    input.PauseEvent -= Pause;
+        //    input.SprintEventCancelled -= SprintCancelled;
+        //    input.PointEvent -= UI_Point;
+        //    input.NavigateEvent -= UI_Navigate;
+        //    input.ResumeEvent -= UI_Resume;
+        //    input.ClickEvent -= UI_Click;
+        //}
+        //public override void OnDestroy()
+        //{
+        //    input.MoveEvent -= Move;
+        //    input.PrimaryEvent -= Input_Ability1Event;
+        //    input.SecondaryEvent -= Input_Ability2Event;
+        //    input.TertiaryEvent -= Input_Ability3Event;
+        //    input.BasicAttackEvent -= BasicAttack;
+        //    input.CrouchEvent -= Crouch;
+        //    input.CrouchEventCancelled -= CrouchCancelled;
+        //    input.JumpEvent -= Jump;
+        //    input.JumpCancelledEvent -= JumpCancelled;
+        //    input.SprintEvent -= Sprint;
+        //    input.LookEvent -= Look;
+        //    input.PauseEvent -= Pause;
+        //    input.SprintEventCancelled -= SprintCancelled;
+        //    input.PointEvent -= UI_Point;
+        //    input.NavigateEvent -= UI_Navigate;
+        //    input.ResumeEvent -= UI_Resume;
+        //    input.ClickEvent -= UI_Click;
+        //  
+        //    base.OnDestroy();
+        //}
     }
 }

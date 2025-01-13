@@ -1,43 +1,53 @@
 using BossRush.FiniteStateMachine.Entities;
 using BossRush.Managers;
-using System;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
 {
     public class JumpingState : State
     {
-        [SerializeField] PlayerEntity playerEntity;
+        PlayerEntity playerEntity;
         InputManager input;
 
         public JumpingState(StateMachine machine) : base(machine)
         { 
+            playerEntity = (PlayerEntity)machine.GetEntity();
             input = InputManager.Instance;
         }
         public override void Enter()
         {
             input.MoveEvent += Move;
-            input.PrimaryEvent += Input_Ability1Event;
-            input.SecondaryEvent += Input_Ability2Event;
-            input.TertiaryEvent += Input_Ability3Event;
+            input.PrimaryEvent += Primary;
+            input.SecondaryEvent += Secondary;
+            input.TertiaryEvent += Tertiary;
             input.BasicAttackEvent += BasicAttack;
             input.CrouchEvent += Crouch;
             input.JumpCancelledEvent += JumpCancelled;
             input.LookEvent += Look;
             input.PauseEvent += Pause;
+
+            Debug.Log("Entered JumpingState");
+
+            playerEntity.Body.linearVelocity = new Vector3(playerEntity.Body.linearVelocity.x, playerEntity.JumpHeight, playerEntity.Body.linearVelocity.z);
         }
 
+        [ServerRpc(RequireOwnership = false)]
         public override void FixedUpdate()
         {
+            playerEntity.moveDirection = playerEntity.transform.right * playerEntity.xInput + playerEntity.transform.forward * playerEntity.yInput;
 
+            playerEntity.Body.linearVelocity = playerEntity.WalkingMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0);
+
+            playerEntity.isGrounded = Physics.Raycast(playerEntity.transform.position, Vector3.down, playerEntity.groundCheckDistance, playerEntity.groundLayer);
         }
 
         public override void Exit()
         {
             input.MoveEvent -= Move;
-            input.PrimaryEvent -= Input_Ability1Event;
-            input.SecondaryEvent -= Input_Ability2Event;
-            input.TertiaryEvent -= Input_Ability3Event;
+            input.PrimaryEvent -= Primary;
+            input.SecondaryEvent -= Secondary;
+            input.TertiaryEvent -= Tertiary;
             input.BasicAttackEvent -= BasicAttack;
             input.CrouchEvent -= Crouch;
             input.JumpCancelledEvent -= JumpCancelled;
@@ -47,46 +57,49 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
 
         private void Pause()
         {
-            throw new NotImplementedException();
+            playerEntity.BasePause();
         }
 
         private void Look(Vector2 vector)
         {
-            throw new NotImplementedException();
+            playerEntity.BaseLook(vector);
         }
 
         private void JumpCancelled()
         {
-            throw new NotImplementedException();
+            if (!playerEntity.isGrounded)
+                playerEntity.Machine.SetState(playerEntity.FallingState);
+            else
+                playerEntity.Machine.SetState(playerEntity.WalkingState);
         }
         private void Crouch()
         {
-            throw new NotImplementedException();
+            playerEntity.BaseCrouch();
         }
 
         private void BasicAttack()
         {
-            throw new NotImplementedException();
+            playerEntity.BaseBasicAttack();
         }
 
-        private void Input_Ability3Event()
+        private void Tertiary()
         {
-            throw new NotImplementedException();
+            playerEntity.BaseTertiary();
         }
 
-        private void Input_Ability2Event()
+        private void Secondary()
         {
-            throw new NotImplementedException();
+            playerEntity.BaseSecondary();
         }
 
-        private void Input_Ability1Event()
+        private void Primary()
         {
-            throw new NotImplementedException();
+            playerEntity.BasePrimary();
         }
 
         private void Move(Vector2 vector)
         {
-            throw new NotImplementedException();
+            playerEntity.BaseMove(vector);
         }
 
     }

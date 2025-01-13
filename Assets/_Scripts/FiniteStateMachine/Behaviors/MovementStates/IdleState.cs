@@ -1,25 +1,25 @@
 using BossRush.FiniteStateMachine.Entities;
 using BossRush.Managers;
-using System;
 using UnityEngine;
 
 namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
 {
     public class IdleState : State
     {
-        [SerializeField] PlayerEntity playerEntity;
         InputManager input;
+        PlayerEntity playerEntity;
         public IdleState(StateMachine machine) : base(machine)
-        { 
+        {
+            playerEntity = (PlayerEntity)machine.GetEntity();
             input = InputManager.Instance;
         }
         public override void Enter()
         {
             input.MoveEvent += Move;
-            input.PrimaryEvent += Input_Ability1Event;
-            input.SecondaryEvent += Input_Ability2Event;
-            input.TertiaryEvent += Input_Ability3Event;
-            input.BasicAttackEvent += BasicAttack;
+            input.PrimaryEvent += Primary;
+            input.SecondaryEvent += Secondary;
+            input.TertiaryEvent += Tertiary;
+            input.BasicAttackEvent += BasicAttack;  
             input.CrouchEvent += Crouch;
             input.JumpEvent += Jump;
             input.SprintEvent += Sprint;
@@ -27,14 +27,23 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
             input.PauseEvent += Pause;
 
             playerEntity.CurrentMoveSpeed = playerEntity.WalkingMoveSpeed;
+
+            Debug.Log("Entered IdleState");
+        }
+
+        public override void FixedUpdate()
+        { 
+            playerEntity.isGrounded = Physics.Raycast(playerEntity.transform.position, Vector3.down, playerEntity.groundCheckDistance, playerEntity.groundLayer);
+            if (!playerEntity.isGrounded)
+                playerEntity.Machine.SetState(playerEntity.FallingState);
         }
 
         public override void Exit()
         {
             input.MoveEvent -= Move;
-            input.PrimaryEvent -= Input_Ability1Event;
-            input.SecondaryEvent -= Input_Ability2Event;
-            input.TertiaryEvent -= Input_Ability3Event;
+            input.PrimaryEvent -= Primary;
+            input.SecondaryEvent -= Secondary;
+            input.TertiaryEvent -= Tertiary;
             input.BasicAttackEvent -= BasicAttack;
             input.CrouchEvent -= Crouch;
             input.JumpEvent -= Jump;
@@ -44,52 +53,52 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
         }
         private void Pause()
         {
-            Machine.SetState(playerEntity.UIState);
+           Machine.SetState(playerEntity.UIState);
         }
 
         private void Look(Vector2 vector)
         {
-            throw new NotImplementedException();
+            playerEntity.BaseLook(vector);
         }
 
         private void Sprint()
         {
-            throw new NotImplementedException();
+            playerEntity.BaseSprint();
         }
 
         private void Jump()
         {
-            throw new NotImplementedException();
+            playerEntity.BaseJump();
         }
 
         private void Crouch()
         {
-            throw new NotImplementedException();
+            playerEntity.BaseCrouch();
         }
 
         private void BasicAttack()
         {
-            throw new NotImplementedException();
+            playerEntity.BaseBasicAttack();
         }
 
-        private void Input_Ability3Event()
+        private void Tertiary()
         {
-            throw new NotImplementedException();
+            playerEntity.BaseTertiary();
         }
 
-        private void Input_Ability2Event()
+        private void Secondary()
         {
-            throw new NotImplementedException();
+            playerEntity.BaseSecondary();
         }
 
-        private void Input_Ability1Event()
+        private void Primary()
         {
-            throw new NotImplementedException();
+            playerEntity.BasePrimary();
         }
 
         private void Move(Vector2 vector)
         {
-            throw new NotImplementedException();
+            playerEntity.Machine.SetState(playerEntity.WalkingState);
         }
 
     }

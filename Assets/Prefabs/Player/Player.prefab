@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3972172260
+  GlobalObjectIdHash: 2874867091
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -166,13 +166,24 @@ MonoBehaviour:
   <Collider>k__BackingField: {fileID: 1146978875218281965}
   <NavAgent>k__BackingField: {fileID: 0}
   <Animator>k__BackingField: {fileID: 0}
+  UICanvas: {fileID: 6428770839366834220, guid: 2f49907765dbb8e48a0b7190c2828780, type: 3}
   CurrentMoveSpeed: 20
   JumpHeight: 10
-  CrouchingMoveSpeed: 10
+  CrouchingMoveSpeed: 5
   WalkingMoveSpeed: 10
   SprintMoveSpeed: 30
   SlideMoveSpeed: 40
   SlideJumpMoveSpeed: 50
+  groundCheckDistance: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  isGrounded: 0
+  xInput: 0
+  yInput: 0
+  sensivityY: 0.5
+  yRotation: 0
+  moveDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &6227287253897154510
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,15 +278,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6227287253897154510}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8aeefed6fe032b94b8849bac05ce0183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   playerEntity: {fileID: 6998115114819051198}
-  canvas: {fileID: 6428770839366834220, guid: 2f49907765dbb8e48a0b7190c2828780, type: 3}
-  sensivityY: 0.5
 --- !u!1001 &1308218480283726196
 PrefabInstance:
   m_ObjectHideFlags: 0

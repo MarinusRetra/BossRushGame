@@ -1,43 +1,50 @@
 using BossRush.FiniteStateMachine.Entities;
 using BossRush.Managers;
-using System;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
 {
-
     public class SlidingState : State
     {
-        [SerializeField] PlayerEntity playerEntity;
+        PlayerEntity playerEntity;
         InputManager input;
 
         public SlidingState(StateMachine machine) : base(machine)
         {
+            playerEntity = (PlayerEntity)machine.GetEntity();
             input = InputManager.Instance;
         }
         public override void Enter()
         { 
-            input.MoveEvent += Move;
-            input.PrimaryEvent += Input_Ability1Event;
-            input.SecondaryEvent += Input_Ability2Event;
-            input.TertiaryEvent += Input_Ability3Event;
+            input.PrimaryEvent += Primary;
+            input.SecondaryEvent += Secondary;
+            input.TertiaryEvent += Tertiary;
             input.BasicAttackEvent += BasicAttack;
             input.CrouchEventCancelled += CrouchCancelled;
             input.JumpEvent += Jump;
             input.LookEvent += Look;
             input.PauseEvent += Pause;
+
+            Debug.Log("Entered SlidingState");
         }
+        
+        [ServerRpc(RequireOwnership = false)]
         public override void FixedUpdate()
         {
+            // playerEntity.moveDirection = playerEntity.transform.right * playerEntity.xInput + playerEntity.transform.forward * playerEntity.yInput;
+            // moveDirection wordt niet gezet want ik wil niet dat je beweegt tijdens een slide
 
+            playerEntity.Body.linearVelocity = playerEntity.SlideMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0);
+
+            playerEntity.isGrounded = Physics.Raycast(playerEntity.transform.position, Vector3.down, playerEntity.groundCheckDistance, playerEntity.groundLayer);
         }
 
         public override void Exit()
         {
-            input.MoveEvent -= Move;
-            input.PrimaryEvent -= Input_Ability1Event;
-            input.SecondaryEvent -= Input_Ability2Event;
-            input.TertiaryEvent -= Input_Ability3Event;
+            input.PrimaryEvent -= Primary;
+            input.SecondaryEvent -= Secondary;
+            input.TertiaryEvent -= Tertiary;
             input.BasicAttackEvent -= BasicAttack;
             input.CrouchEventCancelled -= CrouchCancelled;
             input.JumpEvent -= Jump;
@@ -47,53 +54,42 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
 
         private void Pause()
         {
-            throw new NotImplementedException();
+            playerEntity.BasePause();
         }
 
         private void Look(Vector2 vector)
         {
-            throw new NotImplementedException();
+            playerEntity.BaseLook(vector);
         }
 
         private void Jump()
         {
-            throw new NotImplementedException();
-        }
-
-        private void JumpCancelled()
-        {
-            throw new NotImplementedException();
+            playerEntity.Machine.SetState(playerEntity.JumpingState);
         }
 
         private void CrouchCancelled()
         {
-            throw new NotImplementedException();
+            playerEntity.Machine.SetState(playerEntity.RunningState);
         }
 
         private void BasicAttack()
         {
-            throw new NotImplementedException();
+            playerEntity.BaseBasicAttack();
         }
 
-        private void Input_Ability3Event()
+        private void Tertiary()
         {
-            throw new NotImplementedException();
+            playerEntity.BaseTertiary();
         }
 
-        private void Input_Ability2Event()
+        private void Secondary()
         {
-            throw new NotImplementedException();
+            playerEntity.BaseSecondary();
         }
 
-        private void Input_Ability1Event()
+        private void Primary()
         {
-            throw new NotImplementedException();
+            playerEntity.BasePrimary();
         }
-
-        private void Move(Vector2 vector)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

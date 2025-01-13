@@ -94,7 +94,7 @@ namespace BossRush.Managers
             { 
                 CrouchEvent?.Invoke();
             }
-            if (context.phase == InputActionPhase.Canceled)
+            else if (context.phase == InputActionPhase.Canceled)
             {
                 CrouchEventCancelled?.Invoke();
             }
@@ -107,7 +107,7 @@ namespace BossRush.Managers
                 JumpEvent?.Invoke();
             }
 
-            if(context.phase == InputActionPhase.Canceled)
+            else if(context.phase == InputActionPhase.Canceled)
             {
                 JumpCancelledEvent?.Invoke();
             }
