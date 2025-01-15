@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+using Unity.Netcode.Components;
+
 namespace BossRush.FiniteStateMachine.Entities
 {
     /// <summary>
@@ -18,14 +20,14 @@ namespace BossRush.FiniteStateMachine.Entities
         private void OnValidate()
         {
             // Get all related components
-            Transform = transform;
+            Transform = GetComponent<NetworkTransform>();
 
-            Body = GetComponent<Rigidbody>();
+            Body = GetComponent<NetworkRigidbody>();
             Collider = GetComponentInChildren<Collider>();
             NavAgent = GetComponent<NavMeshAgent>();
 
             // We assume that the Animator is attached to the mesh
-            Animator = GetComponentInChildren<Animator>();
+            Animator = GetComponentInChildren<NetworkAnimator>();
         }
 #endif
 

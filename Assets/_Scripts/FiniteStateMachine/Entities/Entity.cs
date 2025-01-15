@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+using Unity.Netcode.Components;
+
 namespace BossRush.FiniteStateMachine.Entities
 {
     /// <summary>
@@ -13,18 +15,18 @@ namespace BossRush.FiniteStateMachine.Entities
     public abstract class Entity : MonoBehaviour
     {
         [field: Header("Standard Entity Component Attributes")]
-        [field: SerializeField] public Transform Transform { get; set; }
-        [field: SerializeField] public Rigidbody Body { get; set; }
+        [field: SerializeField] public NetworkTransform Transform { get; set; }
+        [field: SerializeField] public NetworkRigidbody Body { get; set; }
         [field: SerializeField] public Collider Collider { get; set; }
         [field: SerializeField] public NavMeshAgent NavAgent { get; set; }
-        [field: SerializeField] public Animator Animator { get; protected set; }
+        [field: SerializeField] public NetworkAnimator Animator { get; protected set; }
 
         // finite state machine attributes
         protected BlackboardReference BlackboardRef;
         public StateMachine Machine;
 
         // virtual standard unity events
-        protected virtual void Start() { Initialize(); }
+        protected virtual void Start() {  }
         protected virtual void Update() { Machine.Update(); }
         protected virtual void FixedUpdate() { Machine.FixedUpdate(); }
 
@@ -35,24 +37,18 @@ namespace BossRush.FiniteStateMachine.Entities
 
         public virtual void Initialize()
         {
-            // Gather all the related components before initializing the blackboard
-            Transform = transform;
-            Body = GetComponent<Rigidbody>();
-            Collider = GetComponentInChildren<Collider>();
-            NavAgent = GetComponent<NavMeshAgent>();
-            Animator = GetComponentInChildren<Animator>();
-
             // Set all the component references with the entities'
             BlackboardRef = new BlackboardReference
             {
                 Transform = Transform,
                 Animator = Animator,
                 Collider = Collider,
-                NavMeshAgent = NavAgent,  //< This is still null, we therefore have to retrieve it later again
+                NavMeshAgent = NavAgent,
                 Rigidbody = Body
             };
 
             // After that initialize the StateMachine
+            // Note: State Machine retrieves the component from the owner(Entity).
             Machine = new StateMachine(this, BlackboardRef);
         }
     }

@@ -1,6 +1,9 @@
 using BossRush.FiniteStateMachine.Entities;
+
 using UnityEngine;
 using UnityEngine.AI;
+
+using Unity.Netcode.Components;
 
 namespace BossRush.FiniteStateMachine
 {
@@ -9,10 +12,10 @@ namespace BossRush.FiniteStateMachine
     /// </summary>
     public struct BlackboardReference
     {
-        public Transform Transform { get; set; }
-        public Rigidbody Rigidbody { get; set; }
+        public NetworkTransform Transform { get; set; }
+        public NetworkRigidbody Rigidbody { get; set; }
         public NavMeshAgent NavMeshAgent { get; set; }
-        public Animator Animator { get; set; }
+        public NetworkAnimator Animator { get; set; }
         public Collider Collider { get; set; }
     }
 
@@ -39,9 +42,10 @@ namespace BossRush.FiniteStateMachine
             // set the blackboard references to cache them
             _blackboardReference = componentRef;
 
-            _blackboardReference.Transform = owner.transform;
-            _blackboardReference.Rigidbody = owner.GetComponent<Rigidbody>();
-            _blackboardReference.Animator = owner.GetComponent<Animator>();
+            // Retrieve components
+            _blackboardReference.Transform = owner.GetComponent<NetworkTransform>();
+            _blackboardReference.Rigidbody = owner.GetComponent<NetworkRigidbody>();
+            _blackboardReference.Animator = owner.GetComponent<NetworkAnimator>();
             _blackboardReference.Collider = owner.GetComponentInParent<Collider>();
             _owner = owner;
         }
