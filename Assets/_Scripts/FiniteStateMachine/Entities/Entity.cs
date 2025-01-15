@@ -23,9 +23,6 @@ namespace BossRush.FiniteStateMachine.Entities
         protected BlackboardReference BlackboardRef;
         public StateMachine Machine;
 
-        // TODO: Standard behaviors
-
-
         // virtual standard unity events
         protected virtual void Start() { Initialize(); }
         protected virtual void Update() { Machine.Update(); }
@@ -38,13 +35,20 @@ namespace BossRush.FiniteStateMachine.Entities
 
         public virtual void Initialize()
         {
+            // Gather all the related components before initializing the blackboard
+            Transform = transform;
+            Body = GetComponent<Rigidbody>();
+            Collider = GetComponentInChildren<Collider>();
+            NavAgent = GetComponent<NavMeshAgent>();
+            Animator = GetComponentInChildren<Animator>();
+
             // Set all the component references with the entities'
             BlackboardRef = new BlackboardReference
             {
                 Transform = Transform,
                 Animator = Animator,
                 Collider = Collider,
-                NavMeshAgent = NavAgent,
+                NavMeshAgent = NavAgent,  //< This is still null, we therefore have to retrieve it later again
                 Rigidbody = Body
             };
 
