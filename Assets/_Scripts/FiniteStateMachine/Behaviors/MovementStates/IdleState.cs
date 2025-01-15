@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
 {
-    public class IdleState : State
+    public class IdleState : State // Idle state can enter every state excpet sliding state
     {
         InputManager input;
         PlayerEntity playerEntity;
@@ -26,14 +26,15 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
             input.LookEvent += Look;
             input.PauseEvent += Pause;
 
-            playerEntity.CurrentMoveSpeed = playerEntity.WalkingMoveSpeed;
+            playerEntity.playerRenderer.material.color = Color.blue;
+
+            playerEntity.CurrentMoveSpeed = 0;
 
             Debug.Log("Entered IdleState");
         }
 
         public override void FixedUpdate()
         { 
-            playerEntity.isGrounded = Physics.Raycast(playerEntity.transform.position, Vector3.down, playerEntity.groundCheckDistance, playerEntity.groundLayer);
             if (!playerEntity.isGrounded)
                 playerEntity.Machine.SetState(playerEntity.FallingState);
         }

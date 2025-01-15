@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
 {
-    public class FallingState : State
+    public class FallingState : State // You can only enter WalkingState from FallingState
     {
         PlayerEntity playerEntity;
         InputManager input;
@@ -25,6 +25,8 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
             input.LookEvent += Look;
             input.PauseEvent += Pause;
 
+            playerEntity.playerRenderer.material.color = Color.gray; // [Temp]
+
             playerEntity.Body.linearVelocity = new Vector3(playerEntity.Body.linearVelocity.x, playerEntity.Body.linearVelocity.y * .5f, playerEntity.Body.linearVelocity.z);
 
             Debug.Log("Entered FallingState");
@@ -35,9 +37,9 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
         {
             playerEntity.moveDirection = playerEntity.transform.right * playerEntity.xInput + playerEntity.transform.forward * playerEntity.yInput;
 
-            playerEntity.Body.linearVelocity = playerEntity.WalkingMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0);
+            playerEntity.Body.AddForce(new Vector3(0, -(playerEntity.Body.linearVelocity.y * 200), 0));
 
-            playerEntity.isGrounded = Physics.Raycast(playerEntity.transform.position, Vector3.down, playerEntity.groundCheckDistance, playerEntity.groundLayer);
+            playerEntity.Body.linearVelocity = playerEntity.CurrentMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0);
 
             if (playerEntity.isGrounded)
                 playerEntity.Machine.SetState(playerEntity.WalkingState);

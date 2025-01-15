@@ -23,16 +23,15 @@ namespace BossRush.FiniteStateMachine
             //input.PointEvent += UI_Point;
             //input.NavigateEvent += UI_Navigate;
             input.ResumeEvent += UI_Resume;
-            //input.ClickEvent += UI_Click;
+            //input.ClickEvent += UI_Click
 
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
             canvas.enabled = true;
 
-            Debug.Log("Entered UIState");
-        }
+            playerEntity.playerRenderer.material.color = Color.black; // [Temp]
 
-        public override void FixedUpdate()
-        {
-            playerEntity.isGrounded = Physics.Raycast(playerEntity.transform.position, Vector3.down, playerEntity.groundCheckDistance, playerEntity.groundLayer);
+            Debug.Log("Entered UIState");
         }
 
         public override void Exit()
@@ -53,7 +52,6 @@ namespace BossRush.FiniteStateMachine
 
         private void UI_Resume()
         {
-
             Machine.ResetToPreviousState(); // Thanks awesome function
         }
 

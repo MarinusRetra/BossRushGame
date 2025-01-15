@@ -6,6 +6,11 @@ namespace BossRush.FiniteStateMachine.Entities
 {
     public class PlayerEntity : Entity
     {
+        [Header("Temp")]
+        [HideInInspector] public float sensivityY = 0.5f; // [TEMP] Will later be moved to a camera controller.
+        [SerializeField] public MeshRenderer playerRenderer;
+
+
         [Header("GeneralStuff")]
         public Canvas UICanvas;
 
@@ -22,7 +27,6 @@ namespace BossRush.FiniteStateMachine.Entities
         public bool isGrounded;
 
         [HideInInspector] public float xInput, yInput;
-        [HideInInspector] public float sensivityY = 0.5f; // [TEMP] Will later be moved to a camera controller.
         [HideInInspector] public float yRotation;
         [HideInInspector] public Vector3 moveDirection;
 
@@ -40,6 +44,9 @@ namespace BossRush.FiniteStateMachine.Entities
         {
             base.Initialize();
 
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
             IdleState = new IdleState(Machine);
             WalkingState = new WalkingState(Machine);
             RunningState = new RunningState(Machine);
@@ -51,7 +58,17 @@ namespace BossRush.FiniteStateMachine.Entities
 
             Machine.SetState(IdleState);
         }
+
+        protected override void FixedUpdate()
+        { 
+            base.FixedUpdate();
+            isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, groundLayer);
+        }
+
+       
+
         // A lot of states have behaviours that overlap, i made these function just so i dont have to write the same function with the same logic multiple times in multiple scripts.
+
         /// <summary>
         /// Sets the current state to the pause state
         /// </summary>
@@ -59,6 +76,7 @@ namespace BossRush.FiniteStateMachine.Entities
         {
             Machine.SetState(UIState);
         }
+
         /// <summary>
         /// Sets yRotation to xInput from the mouse or a joystick
         /// </summary>
@@ -69,6 +87,7 @@ namespace BossRush.FiniteStateMachine.Entities
 
            transform.rotation = Quaternion.Euler(0, yRotation, 0);
         }
+
         /// <summary>
         /// SetState to RunningState
         /// </summary>
@@ -76,6 +95,7 @@ namespace BossRush.FiniteStateMachine.Entities
         {
             Machine.SetState(RunningState);
         }
+
         /// <summary>
         /// SetState to JumpingState
         /// </summary>
@@ -83,6 +103,7 @@ namespace BossRush.FiniteStateMachine.Entities
         {
             Machine.SetState(JumpingState);
         }
+
         /// <summary>
         /// SetState to CrouchingState
         /// </summary>

@@ -1,12 +1,11 @@
 using BossRush.FiniteStateMachine.Entities;
 using BossRush.Managers;
-using log4net.Util;
 using Unity.Netcode;
 using UnityEngine;
 
 namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
 {
-    public class WalkingState : State
+    public class WalkingState : State // Walking State can enter Idle,Jumping,Crouching,Sprinting,UI, and Sprinting state
     {
         PlayerEntity playerEntity;
         InputManager input;
@@ -29,6 +28,10 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
             input.LookEvent += Look;
             input.PauseEvent += Pause;
 
+            playerEntity.CurrentMoveSpeed = playerEntity.WalkingMoveSpeed;
+
+            playerEntity.playerRenderer.material.color = Color.cyan; // [Temp]
+
             Debug.Log("Entered WalkingState");
         }
 
@@ -37,9 +40,16 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
         {
             playerEntity.moveDirection = playerEntity.transform.right * playerEntity.xInput + playerEntity.transform.forward * playerEntity.yInput;
 
-            playerEntity.Body.linearVelocity = playerEntity.WalkingMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0);
+            playerEntity.Body.linearVelocity = playerEntity.CurrentMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0);
 
-            playerEntity.isGrounded = Physics.Raycast(playerEntity.transform.position, Vector3.down, playerEntity.groundCheckDistance, playerEntity.groundLayer);
+            if (!playerEntity.isGrounded)
+                playerEntity.Machine.SetState(playerEntity.FallingState);
+
+            if (playerEntity.Body.linearVelocity == Vector3.zero)
+            {
+                playerEntity.Machine.SetState(playerEntity.IdleState);
+            }
+
         }
 
         public override void Exit()
@@ -54,6 +64,7 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
             input.SprintEvent -= Sprint;
             input.LookEvent -= Look;
             input.PauseEvent -= Pause;
+
         }
 
         private void Pause()

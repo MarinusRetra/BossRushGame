@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
 {
-    public class RunningState : State
+    public class RunningState : State // RunningState can enter UI, Walking, Falling state, Sliding and jumping state
     {
         PlayerEntity playerEntity;
         InputManager input;
@@ -27,6 +27,11 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
             input.PauseEvent += Pause;
             input.SprintEventCancelled += SprintCancelled;
 
+            playerEntity.CurrentMoveSpeed = playerEntity.SprintMoveSpeed;
+
+
+            playerEntity.playerRenderer.material.color = Color.green; // [Temp]
+
             Debug.Log("Entered RunningState");
         }
 
@@ -35,9 +40,10 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
         {
             playerEntity.moveDirection = playerEntity.transform.right * playerEntity.xInput + playerEntity.transform.forward * playerEntity.yInput;
 
-            playerEntity.Body.linearVelocity = playerEntity.SprintMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0);
+            playerEntity.Body.linearVelocity = playerEntity.CurrentMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0);
 
-            playerEntity.isGrounded = Physics.Raycast(playerEntity.transform.position, Vector3.down, playerEntity.groundCheckDistance, playerEntity.groundLayer);
+            if (!playerEntity.isGrounded)
+                playerEntity.Machine.SetState(playerEntity.FallingState);
         }
 
         public override void Exit()
@@ -75,7 +81,8 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
 
         private void Crouch()
         {
-            playerEntity.Machine.SetState(playerEntity.SlidingState);
+            if(playerEntity.isGrounded)
+                playerEntity.Machine.SetState(playerEntity.SlidingState);
         }
 
         private void BasicAttack()

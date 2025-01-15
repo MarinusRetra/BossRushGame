@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
 {
-    public class JumpingState : State
+    public class JumpingState : State // JumpingState can go to FallingState, UIState, WalkingState.
     {
         PlayerEntity playerEntity;
         InputManager input;
@@ -29,7 +29,9 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
 
             Debug.Log("Entered JumpingState");
 
-            playerEntity.Body.linearVelocity = new Vector3(playerEntity.Body.linearVelocity.x, playerEntity.JumpHeight, playerEntity.Body.linearVelocity.z);
+            playerEntity.playerRenderer.material.color = Color.red; // [Temp]
+
+            playerEntity.Body.linearVelocity = new Vector3(playerEntity.Body.linearVelocity.x, playerEntity.JumpHeight, playerEntity.Body.linearVelocity.z);// Jumps
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -37,9 +39,9 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
         {
             playerEntity.moveDirection = playerEntity.transform.right * playerEntity.xInput + playerEntity.transform.forward * playerEntity.yInput;
 
-            playerEntity.Body.linearVelocity = playerEntity.WalkingMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0);
+            playerEntity.Body.AddForce(new Vector3(0, -(playerEntity.Body.linearVelocity.y * 200), 0));
 
-            playerEntity.isGrounded = Physics.Raycast(playerEntity.transform.position, Vector3.down, playerEntity.groundCheckDistance, playerEntity.groundLayer);
+            playerEntity.Body.linearVelocity = playerEntity.CurrentMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0);
         }
 
         public override void Exit()
