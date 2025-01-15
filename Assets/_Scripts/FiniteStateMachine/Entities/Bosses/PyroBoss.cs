@@ -13,8 +13,37 @@ namespace BossRush.FiniteStateMachine.Entities.Bosses
         [field: SerializeField, Tooltip("A reference to the current target's transform.")]
         private NetworkTransform _targetTransform;
 
-        [field: Space, SerializeField, Tooltip("The shockwave behavior that is easily modified in the inspector.")]
+        [SerializeField, Tooltip("The shockwave behavior, viewable and able to modify certain properties in inspector during runtime.")]
         private Shockwave _shockwave;
+
+        [field: SerializeField] public AnimationClip ShockwaveClip { get; private set; }
+
+        [field: Space, SerializeField, Tooltip("The toroid prefab that is being used by the shockwave.")]
+        public GameObject ToroidObject { get; private set; }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            // Initialize behaviors
+            _shockwave = new Shockwave(Machine, this)
+            {
+                ExpansionSpeed = 1.2f
+            };
+
+            // Set the new state
+            Machine.SetState(_shockwave);
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Machine.SetState(_shockwave);
+            }
+        }
 
         /// <summary>
         /// Set a new target for the boss to follow.
@@ -24,12 +53,5 @@ namespace BossRush.FiniteStateMachine.Entities.Bosses
         {
             _targetTransform = newTarget;
         }
-
-#if UNITY_EDITOR
-        private void OnDrawGizmos()
-        {
-
-        }
-#endif
     }
 }
