@@ -16,7 +16,7 @@ namespace BossRush.UnitTests.EditMode
 
             public override void Enter()
             {
-                Debug.Log($"{Machine.GetEntity().name} - Entered Idle state");
+                Debug.Log($"{Machine.GetOwner().name} - Entered Idle state");
             }
         }
 
@@ -27,7 +27,7 @@ namespace BossRush.UnitTests.EditMode
 
             public override void Enter()
             {
-                Debug.Log($"{Machine.GetEntity().name} - Entered Move state");
+                Debug.Log($"{Machine.GetOwner().name} - Entered Move state");
             }
         }
 

@@ -90,7 +90,7 @@ namespace BossRush.FiniteStateMachine
         #region StateMachine Getters
 
         public BlackboardReference GetBlackboardReference() => _blackboardReference;
-        public Entity GetEntity() => _owner;
+        public Entity GetOwner() => _owner;
         public IState GetCurrentState() => _currentState;
 
         #endregion
