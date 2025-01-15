@@ -8,10 +8,12 @@ namespace BossRush.FiniteStateMachine.Entities
     /// <summary>
     /// The base Entity class, this is the parent of all entities.
     /// </summary>
+    /// 
     /// <remarks>
-    /// Requires the component <see cref="Rigidbody"/>.
+    /// Has gotten Network related components and also a nav mesh.
+    /// Requires the component <see cref="NetworkRigidbody"/>.
     /// </remarks>
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(NetworkRigidbody))]
     public abstract class Entity : MonoBehaviour
     {
         [field: Header("Standard Entity Component Attributes")]
@@ -27,8 +29,8 @@ namespace BossRush.FiniteStateMachine.Entities
 
         // virtual standard unity events
         protected virtual void Start() {  }
-        protected virtual void Update() { Machine.Update(); }
-        protected virtual void FixedUpdate() { Machine.FixedUpdate(); }
+        protected virtual void Update() { Machine.Step(); }
+        protected virtual void FixedUpdate() { Machine.FixedStep(); }
 
         // virtual event registration unity events
         protected virtual void OnEnable() { }

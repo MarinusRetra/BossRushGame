@@ -50,12 +50,18 @@ namespace BossRush.FiniteStateMachine
             _owner = owner;
         }
 
-        public void Update()
+        /// <summary>
+        /// Updates the current state of the machine.
+        /// </summary>
+        public void Step()
         {
             _currentState?.Update();
         }
 
-        public void FixedUpdate()
+        /// <summary>
+        /// Updates the current state of the machine in a fixed interval.
+        /// </summary>
+        public void FixedStep()
         {
             _currentState?.FixedUpdate();
         }
@@ -89,6 +95,9 @@ namespace BossRush.FiniteStateMachine
 
         #endregion
 
+        /// <summary>
+        /// Resets the current state to the previous state.
+        /// </summary>
         public void ResetToPreviousState()
         {
             if (_previousState != null)
