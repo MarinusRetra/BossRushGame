@@ -45,8 +45,8 @@ namespace BossRush.FiniteStateMachine
             // Retrieve components
             _blackboardReference.Transform = owner.GetComponent<NetworkTransform>();
             _blackboardReference.Rigidbody = owner.GetComponent<NetworkRigidbody>();
-            _blackboardReference.Animator = owner.GetComponent<NetworkAnimator>();
-            _blackboardReference.Collider = owner.GetComponentInParent<Collider>();
+            _blackboardReference.Animator = owner.GetComponentInChildren<NetworkAnimator>();
+            _blackboardReference.Collider = owner.GetComponentInChildren<Collider>();
             _owner = owner;
         }
 

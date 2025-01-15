@@ -11,6 +11,10 @@ namespace BossRush.FiniteStateMachine.Entities
     [RequireComponent(typeof(NavMeshAgent))]
     public class BossEntity : Entity
     {
+        [field: Header("Targeting Properties")]
+        [field: SerializeField, Tooltip("A reference to the current target's transform.")]
+        private NetworkTransform _targetTransform;
+
         protected override void OnEnable()
         {
             Initialize();
@@ -42,6 +46,15 @@ namespace BossRush.FiniteStateMachine.Entities
 
             // Set the navmesh agent for the machine to use for boss specific behaviors
             Machine.SetNavMeshAgent(NavAgent);
+        }
+
+        /// <summary>
+        /// Set a new target for the boss to follow.
+        /// </summary>
+        /// <param name="newTarget"></param>
+        public void SetNewTarget(NetworkTransform newTarget)
+        {
+            _targetTransform = newTarget;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace BossRush.FiniteStateMachine.Behaviors.Bosses
         public float MaxRadius { get; set; } = 30f;
 
         [field: SerializeField, Tooltip("The speed the toroid expands at."), Range(1f, 30f)]
-        public float ExpansionSpeed { get; set; }
+        public float ExpansionSpeed { get; set; } = 8f;
 
         // State attributes
         private GameObject _toroid;
@@ -47,7 +47,7 @@ namespace BossRush.FiniteStateMachine.Behaviors.Bosses
             if (animator != null)
             {
                 animator.Animator.SetBool(IS_SHOCKWAVE_COMPLETE, false);
-                animator.Animator.Play(nameof(_clip));
+                //animator.Animator.Play(nameof(_clip));
             }
         }
 
