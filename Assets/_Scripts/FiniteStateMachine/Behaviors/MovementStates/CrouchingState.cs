@@ -28,6 +28,8 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
             input.LookEvent += Look;
             input.PauseEvent += Pause;
 
+            playerEntity.playerRenderer.material.color = Color.clear;
+
             Debug.Log("Entered CrouchingState");
         }
       
@@ -70,6 +72,7 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
 
         private void Jump()
         {
+            if(playerEntity.IsGrounded) // You can crouch in the air so this check is needed
             playerEntity.BaseJump();
         }
 

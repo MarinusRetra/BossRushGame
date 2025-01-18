@@ -50,9 +50,9 @@ namespace BossRush.FiniteStateMachine
         //{
         //}
 
-        private void UI_Resume()
+        private void UI_Resume()// Return to idle state when unpausing.
         {
-            Machine.ResetToPreviousState(); // Thanks awesome function
+            Machine.SetState(playerEntity.IdleState); 
         }
 
         //private void UI_Navigate(Vector2 vector)

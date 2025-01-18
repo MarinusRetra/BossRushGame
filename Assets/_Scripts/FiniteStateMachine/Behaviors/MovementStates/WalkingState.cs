@@ -38,16 +38,18 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
         [ServerRpc(RequireOwnership = false)]
         public override void FixedUpdate()
         {
-            playerEntity.moveDirection = playerEntity.transform.right * playerEntity.xInput + playerEntity.transform.forward * playerEntity.yInput;
+            if (!playerEntity.IsGrounded)
+            { 
+                Machine.SetState(playerEntity.FallingState);
+            }
 
-            playerEntity.Body.linearVelocity = playerEntity.CurrentMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0);
+            playerEntity.moveDirection = playerEntity.transform.right * playerEntity.xInput + playerEntity.transform.forward * playerEntity.yInput; // Sets move direction to WASD input
 
-            if (!playerEntity.isGrounded)
-                playerEntity.Machine.SetState(playerEntity.FallingState);
-
-            if (playerEntity.Body.linearVelocity == Vector3.zero)
+            playerEntity.Body.linearVelocity = playerEntity.CurrentMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0); // Applies CurrentMoveSpeed in moveDirection 
+            
+            if (playerEntity.Body.linearVelocity == Vector3.zero) // Go to idle state when you stop moving
             {
-                playerEntity.Machine.SetState(playerEntity.IdleState);
+                Machine.SetState(playerEntity.IdleState);
             }
 
         }

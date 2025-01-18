@@ -27,21 +27,38 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
             input.LookEvent += Look;
             input.PauseEvent += Pause;
 
+            if (!playerEntity.IsGrounded) //If you somehow manage to get here without grounded being true reset to previous state
+            { 
+                Machine.ResetToPreviousState();
+            }
+
+            playerEntity.CurrentMoveSpeed *= .9f;
+
+
+            if (playerEntity.CurrentMoveSpeed == 0)
+            {
+                playerEntity.CurrentMoveSpeed = playerEntity.WalkingMoveSpeed;
+            }
+
             Debug.Log("Entered JumpingState");
+            
+            playerEntity.IsGrounded = false;
 
             playerEntity.playerRenderer.material.color = Color.red; // [Temp]
 
-            playerEntity.Body.linearVelocity = new Vector3(playerEntity.Body.linearVelocity.x, playerEntity.JumpHeight, playerEntity.Body.linearVelocity.z);// Jumps
+            playerEntity.Body.linearVelocity = new Vector3(playerEntity.Body.linearVelocity.x, playerEntity.JumpHeight, playerEntity.Body.linearVelocity.z);// Jump logic.
         }
 
         [ServerRpc(RequireOwnership = false)]
         public override void FixedUpdate()
         {
-            playerEntity.moveDirection = playerEntity.transform.right * playerEntity.xInput + playerEntity.transform.forward * playerEntity.yInput;
-
-            playerEntity.Body.AddForce(new Vector3(0, -(playerEntity.Body.linearVelocity.y * 200), 0));
-
-            playerEntity.Body.linearVelocity = playerEntity.CurrentMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0);
+            playerEntity.moveDirection = playerEntity.transform.right * playerEntity.xInput + playerEntity.transform.forward * playerEntity.yInput;// Sets move direction to WASD input.
+            playerEntity.Body.linearVelocity = playerEntity.CurrentMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0);// Applies CurrentMoveSpeed in moveDirection.
+            
+            if (playerEntity.Body.linearVelocity.y < 3)// Makes the player fall faster to make movement feeling less floaty.
+            {
+                playerEntity.Body.linearVelocity += (playerEntity.FallMultiplier) * Physics.gravity.y * Time.fixedDeltaTime * Vector3.up;
+            }
         }
 
         public override void Exit()
@@ -69,10 +86,10 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
 
         private void JumpCancelled()
         {
-            if (!playerEntity.isGrounded)
-                playerEntity.Machine.SetState(playerEntity.FallingState);
+            if (!playerEntity.TrueIsGrounded)
+                Machine.SetState(playerEntity.FallingState);
             else
-                playerEntity.Machine.SetState(playerEntity.WalkingState);
+                Machine.SetState(playerEntity.WalkingState);
         }
         private void Crouch()
         {
@@ -99,9 +116,10 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
             playerEntity.BasePrimary();
         }
 
-        private void Move(Vector2 vector)
+        private void Move(Vector2 vector)// Lowers the value from input so movement is a little more restricted while in air without killing your momentum.
         {
-            playerEntity.BaseMove(vector);
+            playerEntity.xInput = vector.x * .9f;
+            playerEntity.yInput = vector.y * .9f;
         }
 
     }

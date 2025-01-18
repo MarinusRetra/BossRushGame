@@ -1,6 +1,7 @@
 using BossRush.FiniteStateMachine.Entities;
 using BossRush.Managers;
 using System;
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
     {
         PlayerEntity playerEntity;
         InputManager input;
+        float slideEndTimer = 0.6f;
+        float slideEndCounter = 0;
 
         public SlidingState(StateMachine machine) : base(machine)
         {
@@ -28,6 +31,10 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
             input.LookEvent += Look;
             input.PauseEvent += Pause;
 
+            playerEntity.StartSlideCD();
+
+            slideEndCounter = slideEndTimer;
+
             playerEntity.CurrentMoveSpeed = playerEntity.SlideMoveSpeed;
 
             playerEntity.playerRenderer.material.color = Color.yellow; // [Temp]
@@ -38,13 +45,18 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
         [ServerRpc(RequireOwnership = false)]
         public override void FixedUpdate()
         {
-            // playerEntity.moveDirection = playerEntity.transform.right * playerEntity.xInput + playerEntity.transform.forward * playerEntity.yInput;
-            // moveDirection wordt niet gezet want ik wil niet dat je beweegt tijdens een slide
+            slideEndCounter -= Time.deltaTime;
 
-            playerEntity.Body.linearVelocity = playerEntity.CurrentMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0);
-
-            if (!playerEntity.isGrounded)
+            if (!playerEntity.IsGrounded)
                 playerEntity.Machine.SetState(playerEntity.FallingState);
+            if (slideEndCounter < 0)
+            {
+                Machine.SetState(playerEntity.WalkingState);
+            }
+
+            // moveDirection does not get set here since i dont want you to walk normally while sliding.
+
+            playerEntity.Body.linearVelocity = playerEntity.CurrentMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0); // Applies CurrentMoveSpeed in moveDirection 
         }
 
         public override void Exit()
@@ -73,15 +85,14 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
         {
             playerEntity.CurrentMoveSpeed = playerEntity.SlideJumpMoveSpeed;
 
-            playerEntity.Body.linearVelocity = playerEntity.CurrentMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y, 0); // Adds horizontal speed
-            playerEntity.Body.linearVelocity = new Vector3(playerEntity.Body.linearVelocity.x, playerEntity.JumpHeight, playerEntity.Body.linearVelocity.z); // Adds vertical speed
-
-            //playerEntity.Machine.SetState(playerEntity.JumpingState);
+            playerEntity.Body.linearVelocity = playerEntity.CurrentMoveSpeed * playerEntity.moveDirection + new Vector3(0, playerEntity.Body.linearVelocity.y / 2, 0); // Adds forward speed
+            playerEntity.SlideJumpCoroutine(); // Ends the slide after .6 seconds.
+            playerEntity.BaseJump();
         }
 
         private void CrouchCancelled()
         {
-            playerEntity.Machine.SetState(playerEntity.RunningState);
+            Machine.SetState(playerEntity.RunningState);
         }
 
         private void BasicAttack()
@@ -105,7 +116,7 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
         }
         private void SprintCancelled()
         {
-            playerEntity.Machine.SetState(playerEntity.WalkingState);
+            Machine.SetState(playerEntity.WalkingState);
         }
     }
 }

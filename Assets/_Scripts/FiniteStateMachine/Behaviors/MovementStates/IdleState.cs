@@ -35,7 +35,7 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
 
         public override void FixedUpdate()
         { 
-            if (!playerEntity.isGrounded)
+            if (!playerEntity.IsGrounded)
                 playerEntity.Machine.SetState(playerEntity.FallingState);
         }
 
@@ -97,9 +97,9 @@ namespace BossRush.FiniteStateMachine.Behaviors.MovementStates
             playerEntity.BasePrimary();
         }
 
-        private void Move(Vector2 vector)
+        private void Move(Vector2 vector) // When you start moving go to moving state
         {
-            playerEntity.Machine.SetState(playerEntity.WalkingState);
+            Machine.SetState(playerEntity.WalkingState);
         }
 
     }
