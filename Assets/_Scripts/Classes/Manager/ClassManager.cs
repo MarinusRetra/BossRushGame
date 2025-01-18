@@ -10,16 +10,16 @@ namespace BossRush.Managers
     public class ClassManager : Singleton<ClassManager>
     {
         [Tooltip("The items made in here will be set into the classDictionary")]
-        [SerializeField] private CreateClassDictionary createClassDictionary;
+        [SerializeField] private CreateClassDictionary _createClassDictionary;
 
         [Tooltip("The dictionary that holds all the classes by name")]
-        private Dictionary<string, PlayableClass> classDictionary;
+        private Dictionary<string, PlayableClass> _classDictionary;
 
         protected override void Awake()
         {
             base.Awake();
 
-            classDictionary = createClassDictionary.ToDictionary();
+            _classDictionary = _createClassDictionary.ToDictionary();
         }
 
         /// <summary>
@@ -27,6 +27,6 @@ namespace BossRush.Managers
         /// </summary>
         /// <param name="key">The name of the class you want to change to.</param>
         /// <returns>The class you change to.</returns>
-        public PlayableClass ChangeClass(string key) => classDictionary[key];
+        public PlayableClass ChangeClass(string key) => _classDictionary[key];
     }
 }

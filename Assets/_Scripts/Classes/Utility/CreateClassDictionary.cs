@@ -9,16 +9,16 @@ namespace BossRush.Classes.Utility
     public struct ClassItem
     {
         [Tooltip("The name of the class")]
-        public string key;
+        public string Key;
         [Tooltip("The class")]
-        public PlayableClass value;
+        public PlayableClass Value;
     }
 
     [Serializable]
     public class CreateClassDictionary
     {
         [SerializeField]
-        public ClassItem[] classItems;
+        public ClassItem[] ClassItems;
 
         /// <summary>
         /// Creates a dictionary out of ClassItems
@@ -28,9 +28,9 @@ namespace BossRush.Classes.Utility
         {
             Dictionary<string, PlayableClass> newDictonary = new Dictionary<string, PlayableClass>();
 
-            foreach (var item in classItems)
+            foreach (var item in ClassItems)
             {
-                newDictonary.Add(item.key, item.value);    
+                newDictonary.Add(item.Key, item.Value);    
             }
 
             return newDictonary;

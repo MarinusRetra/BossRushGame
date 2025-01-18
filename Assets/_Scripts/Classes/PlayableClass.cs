@@ -11,25 +11,25 @@ namespace BossRush.Classes
     public abstract class PlayableClass : NetworkBehaviour
     {
         [Tooltip("Holds the data for the class")]
-        [SerializeField] protected PlayableClassData data;
+        [SerializeField] protected PlayableClassData Data;
 
         [Tooltip("The level of the class")] 
-        public int level { get; protected set; } = 0;
+        public int Level { get; protected set; } = 0;
 
         [Tooltip("The current health the player/class has")]
-        protected float health;
+        protected float Health;
 
         [Tooltip("The primary ability of the class")]
-        public State primaryAbility;
+        public State PrimaryAbility;
 
         [Tooltip("The secondary ability of the class")]
-        public State secondaryAbility;
+        public State SecondaryAbility;
 
         [Tooltip("The tertiary ability of the class")]
-        public State tertiaryAbility;
+        public State TertiaryAbility;
 
         [Tooltip("the quaternary ability of the class")]
-        public State quaternaryAbility;
+        public State QuaternaryAbility;
 
         /// <summary>
         /// Add each of the abilities in the constructor.
@@ -43,6 +43,6 @@ namespace BossRush.Classes
         /// <summary>
         /// Increases the level of the class.
         /// </summary>
-        public void IncreaseLevel() => level++;
+        public void IncreaseLevel() => Level++;
     }
 }
