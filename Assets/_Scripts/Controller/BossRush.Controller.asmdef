@@ -3,7 +3,9 @@
     "rootNamespace": "BossRush.Controllers",
     "references": [
         "GUID:7f2419b21defe7e49b7eac876c1af739",
-        "GUID:ebd20b370e4beff4497589deb9a1ba77"
+        "GUID:ebd20b370e4beff4497589deb9a1ba77",
+        "GUID:d057c021589731e469169c344b09edf6",
+        "GUID:1491147abca9d7d4bb7105af628b223e"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
