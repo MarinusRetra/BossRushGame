@@ -1,7 +1,6 @@
 using System;
-using BossRush.Classes.Data;
-using BossRush.FiniteStateMachine;
-using BossRush.FiniteStateMachine.Behaviors;
+using BossRush.Classes.DataObj;
+using BossRush.Classes.Abilities;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -10,38 +9,31 @@ namespace BossRush.Classes
     [Serializable]
     public abstract class PlayableClass : NetworkBehaviour
     {
-        [Tooltip("Holds the data for the class")]
+        [Tooltip("The data object containing configuration and stats for this playable class.")]
         [SerializeField] protected PlayableClassData Data;
 
-        [Tooltip("The level of the class")] 
+        [Tooltip("The current level of this playable class instance.")]
         public int Level { get; protected set; } = 0;
 
-        [Tooltip("The current health the player/class has")]
-        protected float Health;
+        [Tooltip("The primary ability of the class.")]
+        public Ability PrimaryAbility;
 
-        [Tooltip("The primary ability of the class")]
-        public State PrimaryAbility;
+        [Tooltip("The secondary ability of the class.")]
+        public Ability SecondaryAbility;
 
-        [Tooltip("The secondary ability of the class")]
-        public State SecondaryAbility;
+        [Tooltip("The tertiary ability of the class.")]
+        public Ability TertiaryAbility;
 
-        [Tooltip("The tertiary ability of the class")]
-        public State TertiaryAbility;
-
-        [Tooltip("the quaternary ability of the class")]
-        public State QuaternaryAbility;
+        [Tooltip("The quaternary ability of the class.")]
+        public Ability QuaternaryAbility;
 
         /// <summary>
-        /// Add each of the abilities in the constructor.
-        /// After that make a new instance for each state with the correct ability.
+        /// Add all instances for the abilities here keep in mind the class
         /// </summary>
-        /// <param name="stateMachine"></param>
-        protected PlayableClass(StateMachine stateMachine)
-        {
-        }
+        protected abstract void Awake();
 
         /// <summary>
-        /// Increases the level of the class.
+        /// Increases the level of the class by one.
         /// </summary>
         public void IncreaseLevel() => Level++;
     }
