@@ -166,7 +166,7 @@ MonoBehaviour:
       TextComponent: {fileID: 0}
       TextColor: {r: 0, g: 0, b: 0, a: 0}
       Font: {fileID: 0}
-    InputField:
+    ServerInputField:
       InputComponent: {fileID: 0}
     PlayerNameField:
       InputComponent: {fileID: 0}

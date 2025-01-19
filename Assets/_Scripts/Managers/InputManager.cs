@@ -25,8 +25,9 @@ namespace BossRush.Managers
         public event Action CrouchEventCancelled;
         public event Action PrimaryEvent;
         public event Action SecondaryEvent;
-        public event Action Ability3Event;
+        public event Action TertiaryEvent;
         public event Action SprintEvent;
+        public event Action SprintEventCancelled;
         public event Action PauseEvent;
         public event Action<Vector2> MoveEvent;
         public event Action<Vector2> LookEvent;
@@ -72,8 +73,7 @@ namespace BossRush.Managers
         // PlayerAction functions
         public void OnMove(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed)
-                MoveEvent?.Invoke(context.ReadValue<Vector2>());
+            MoveEvent?.Invoke(context.phase == InputActionPhase.Performed ? context.ReadValue<Vector2>() : Vector2.zero);
         }
 
         public void OnLook(InputAction.CallbackContext context)
@@ -94,7 +94,7 @@ namespace BossRush.Managers
             { 
                 CrouchEvent?.Invoke();
             }
-            if (context.phase == InputActionPhase.Canceled)
+            else if (context.phase == InputActionPhase.Canceled)
             {
                 CrouchEventCancelled?.Invoke();
             }
@@ -107,7 +107,7 @@ namespace BossRush.Managers
                 JumpEvent?.Invoke();
             }
 
-            if(context.phase == InputActionPhase.Canceled)
+            else if(context.phase == InputActionPhase.Canceled)
             {
                 JumpCancelledEvent?.Invoke();
             }
@@ -128,13 +128,15 @@ namespace BossRush.Managers
         public void OnTertiary(InputAction.CallbackContext context)
         {
             if (context.phase == InputActionPhase.Performed)
-                Ability3Event?.Invoke();
+                TertiaryEvent?.Invoke();
         }
 
         public void OnSprint(InputAction.CallbackContext context)
         {
             if (context.phase == InputActionPhase.Performed)
                 SprintEvent?.Invoke();
+            else if(context.phase == InputActionPhase.Canceled)
+                SprintEventCancelled?.Invoke();
         }
         public void OnPause(InputAction.CallbackContext context)
         {
