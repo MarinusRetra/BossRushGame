@@ -54,7 +54,7 @@ namespace BossRush.FiniteStateMachine.Entities
         }
 
         //  Handles the taking dmg for the entity.
-        public void TakeDamageServerRpc(float damage)
+        public virtual void TakeDamageServerRpc(float damage)
         {
             //  TODO: Implement actual logic for taking dmg.
             Debug.Log("Did dmg");

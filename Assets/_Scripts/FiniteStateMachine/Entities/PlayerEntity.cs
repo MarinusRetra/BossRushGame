@@ -1,6 +1,12 @@
+using System;
 using UnityEngine;
 using BossRush.FiniteStateMachine.Behaviors.MovementStates;
 using System.Collections;
+using BossRush.Classes;
+using BossRush.Classes.Abilities;
+using BossRush.Managers;
+using Unity.Netcode;
+using UnityEngine.Playables;
 
 
 namespace BossRush.FiniteStateMachine.Entities
@@ -57,12 +63,21 @@ namespace BossRush.FiniteStateMachine.Entities
         public SlidingState SlidingState;
         public UIState UIState;
 
+        [Header("PlayableClasses variables")] 
+        [SerializeField] private PlayableClass _currentClass;
+        public EntityAbilityData EntityAbility;
+        [SerializeField] private bool _canAttack = true;
+
         public override void Initialize()
         {
             base.Initialize();
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+
+            EntityAbility = new EntityAbilityData(BlackboardRef.Animator, BlackboardRef.Rigidbody);
+
+            _currentClass = ClassManager.Instance.ChangeClass("BERSERKER");
 
             IdleState = new IdleState(Machine);
             WalkingState = new WalkingState(Machine);
@@ -90,6 +105,10 @@ namespace BossRush.FiniteStateMachine.Entities
             }
 
             IsGrounded = CoyoteTimeCounter > 0;
+
+            _currentClass.PassiveAbility.Do(ref EntityAbility);
+
+            if (EntityAbility.HasTakenDmg) EntityAbility.HasTakenDmg = false;
         }
 
 
@@ -142,6 +161,12 @@ namespace BossRush.FiniteStateMachine.Entities
         /// </summary>
         public void BaseBasicAttack()
         {
+            if (!_canAttack) return;
+            _canAttack = false;
+
+            StartCoroutine(_currentClass.PrimaryAbility.Do(EntityAbility, _currentClass.Data.PrimaryData,
+                _currentClass.Data.BaseDmg[_currentClass.Level], transform,
+                returnValue => { _canAttack = returnValue; }));
             Debug.Log("Basic Bonk");
         }
         /// <summary>
@@ -149,6 +174,12 @@ namespace BossRush.FiniteStateMachine.Entities
         /// </summary>
         public void BaseTertiary()
         {
+            if (!_canAttack) return;
+            _canAttack = false;
+
+            StartCoroutine(_currentClass.QuaternaryAbility.Do(EntityAbility, _currentClass.Data.QuaternaryData,
+                _currentClass.Data.BaseDmg[_currentClass.Level], transform,
+                returnValue => { _canAttack = returnValue; }));
             Debug.Log("Third Bonk");
         }
         /// <summary>
@@ -156,6 +187,12 @@ namespace BossRush.FiniteStateMachine.Entities
         /// </summary>
         public void BaseSecondary()
         {
+            if (!_canAttack) return;
+            _canAttack = false;
+
+            StartCoroutine(_currentClass.TertiaryAbility.Do(EntityAbility, _currentClass.Data.TertiaryData,
+                _currentClass.Data.BaseDmg[_currentClass.Level], transform,
+                returnValue => { _canAttack = returnValue; }));
             Debug.Log("Second Bonk");
         }
         /// <summary>
@@ -163,6 +200,12 @@ namespace BossRush.FiniteStateMachine.Entities
         /// </summary>
         public void BasePrimary()
         {
+            if (!_canAttack) return;
+            _canAttack = false;
+
+            StartCoroutine(_currentClass.SecondaryAbility.Do(EntityAbility, _currentClass.Data.SecondaryData,
+                _currentClass.Data.BaseDmg[_currentClass.Level], transform,
+                returnValue => { _canAttack = returnValue; }));
             Debug.Log("First Bonk");
         }
         /// <summary>
@@ -203,6 +246,13 @@ namespace BossRush.FiniteStateMachine.Entities
         {
             yield return new WaitForSeconds(0.4f);
             CurrentMoveSpeed = SprintMoveSpeed;
+        }
+
+        public override void TakeDamageServerRpc(float damage)
+        {
+            base.TakeDamageServerRpc(damage);
+            EntityAbility.HasTakenDmg = true;
+            Debug.Log(gameObject);
         }
     }
 }
