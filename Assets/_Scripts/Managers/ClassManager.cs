@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using BossRush.Classes;
 using BossRush.Classes.Utility;
 using BossRush.Utility;
 using UnityEngine;
+using BossRush.Classes;
 
 namespace BossRush.Managers
 {

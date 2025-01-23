@@ -7,10 +7,10 @@ using UnityEngine;
 namespace BossRush.Classes
 {
     [Serializable]
-    public abstract class PlayableClass : NetworkBehaviour
+    public abstract class PlayableClass : MonoBehaviour
     {
         [Tooltip("The data object containing configuration and stats for this playable class.")]
-        [SerializeField] protected PlayableClassData Data;
+        [SerializeField] public PlayableClassData Data { get; protected set; }
 
         [Tooltip("The current level of this playable class instance.")]
         public int Level { get; protected set; } = 0;

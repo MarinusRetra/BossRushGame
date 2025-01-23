@@ -4,6 +4,17 @@ using UnityEngine;
 
 namespace BossRush.Classes.DataObj
 {
+    /// <summary>
+    /// Represents data for an ability, including its associated animation and damage multiplier.
+    /// </summary>
+    [Serializable]
+    public struct AbilityData
+    {
+        [Tooltip("The animation clip associated with the ability")]
+        public AnimationClip Clip;
+        [Tooltip("Multiply base dmg by this to get the actual dmg for the ability.")]
+        [Range(0.1f, 5)]public float DmgMulti;
+    }
 
 
     /// <summary>
@@ -27,16 +38,16 @@ namespace BossRush.Classes.DataObj
         [Tooltip("The base damage values the class deals at each level. Values range from 5 to 75."), Range(5, 75)]
         public float[] BaseDmg;
 
-        [Tooltip("The animation clip associated with the primary ability.")]
-        public AnimationClip PrimaryAnimation;
+        [Tooltip("The data associated with the primary ability.")]
+        public AbilityData PrimaryData;
 
-        [Tooltip("The animation clip associated with the secondary ability.")]
-        public AnimationClip SecondaryAnimation;
+        [Tooltip("The data associated with the secondary ability.")]
+        public AbilityData SecondaryData;
 
-        [Tooltip("The animation clip associated with the tertiary ability.")]
-        public AnimationClip TertiaryAnimation;
+        [Tooltip("The data associated with the tertiary ability.")]
+        public AbilityData TertiaryData;
 
-        [Tooltip("The animation clip associated with the quaternary ability.")]
-        public AnimationClip QuaternaryAnimation;
+        [Tooltip("The data associated with the quaternary ability.")]
+        public AbilityData QuaternaryData;
     }
 }

@@ -1,9 +1,17 @@
+using System;
 using System.Collections;
+using BossRush.Classes.DataObj;
 using Unity.Netcode;
 using UnityEngine;
 
 namespace BossRush.Classes.Abilities
 {
+    public struct EntityAbilityData
+    {
+        public Animator AnimatorData;
+        public Rigidbody Rb;
+    }
+
     /// <summary>
     /// Base class for defining abilities in the Boss Rush game. Abilities are networked behaviors that can be executed with animations and damage.
     /// </summary>
@@ -12,10 +20,13 @@ namespace BossRush.Classes.Abilities
         /// <summary>
         /// Executes the ability with the specified animation and base damage.
         /// </summary>
-        /// <param name="animation">The animation clip to play during the ability.</param>
+        /// <param name="entityAbilityData">Hold data of the entity that uses it.</param>
         /// <param name="baseDmg">The base damage value of the ability.</param>
-        /// <param name="callBack">Callback invoked when the ability execution is complete. Passes a boolean indicating whether the ability has finished executing.</param>
+        /// <param name="entityTransform">The Transform of the entity using the ability.</param>
+        /// <param name="callBack">Callback invoked when the ability execution is complete. Passes a boolean indicating
+        /// whether the ability has finished executing.</param>
         /// <returns>An IEnumerator for coroutine-based execution.</returns>
-        public abstract IEnumerator Do(AnimationClip animation, float baseDmg, System.Action<bool> callBack);
+        public abstract IEnumerator Do(EntityAbilityData entityAbilityData, AbilityData abilityData, float baseDmg,
+            Transform entityTransform, System.Action<bool> callBack);
     }
 }
