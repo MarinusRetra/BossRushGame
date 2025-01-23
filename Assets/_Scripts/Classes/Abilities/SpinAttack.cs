@@ -10,7 +10,7 @@ namespace BossRush.Classes
     public class SpinAttack : Ability
     {
         public override IEnumerator Do(EntityAbilityData entityAbilityData, AbilityData abilityData, float baseDmg,
-            Transform entityTransform, Action<bool> callBack)
+            Transform entityTransform, Action<bool> callBack = null)
         {
             //  Checks if the animationClip equals null else it will default to a duration of 2 second.
             var timer = abilityData.Clip != null ? abilityData.Clip.length : 2f;
@@ -32,10 +32,6 @@ namespace BossRush.Classes
              
                 //  TODO: Implement logic for the animation.
 
-                //  Check if the animation of the ability is over when it is returns True
-                //  so a new ability can be started.
-                if (timer <= 0f) callBack.Invoke(true);
-
                 //  Checks if the dmgTimer is greater than 0 else returns to skip the dmg part of the ability.
                 if (dmgTimer > 0f) yield return null;
                 dmgTimer = MAX_DMG_TIMER;
@@ -53,6 +49,8 @@ namespace BossRush.Classes
 
                 yield return null;
             }
+
+            callBack.Invoke(true);
         }
     }
 }

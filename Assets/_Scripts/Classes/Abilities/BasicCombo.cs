@@ -9,10 +9,10 @@ namespace BossRush.Classes.Abilities
     public class BasicCombo : Ability
     {
         public override IEnumerator Do(EntityAbilityData entityAbilityData, AbilityData abilityData, float baseDmg,
-            Transform entityTransform, Action<bool> callBack)
+            Transform entityTransform, Action<bool> callBack = null)
         {
             //  Checks if the animationClip equals null else it will default to a duration of 1 second.
-            var timer = abilityData.Clip != null ? abilityData.Clip.length : 1f; 
+            var timer = (abilityData.Clip != null ? abilityData.Clip.length : 1f) * entityAbilityData.AttackSpeedMulti; 
 
             //  TODO: If the Physics.SphereCast() gets replaced with an OnTriggerEnter() remove variable below.
             //  Returns if the attack already hit a IDamageable.
@@ -28,12 +28,9 @@ namespace BossRush.Classes.Abilities
 
                 //  TODO: Implement logic for the animation.
 
-                //  Check if the animation of the ability is over when it is returns True
-                //  so a new ability can be started.
-                if (timer <= 0f) callBack.Invoke(true);
-
                 //  TODO: Delete this if statement if changed to use OnTriggerEnter().
                 //  Skips the dmg step of the while loop if dmg was already dealt.
+
                 if (hasDealtDmg) yield return null;
 
                 //  TODO: Maybe change this for an OnTriggerEnter() when models and animations are finished.
@@ -52,6 +49,7 @@ namespace BossRush.Classes.Abilities
                 yield return null;
             }
 
+            callBack.Invoke(true);
         }
     }
 }

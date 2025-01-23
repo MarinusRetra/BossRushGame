@@ -4,11 +4,12 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - Data: {fileID: 11400000, guid: 02fabdac4ab32db4e88426b6278ae05d, type: 2}
+  - <Data>k__BackingField: {fileID: 11400000, guid: 02fabdac4ab32db4e88426b6278ae05d, type: 2}
   - PrimaryAbility: {instanceID: 0}
   - SecondaryAbility: {instanceID: 0}
   - TertiaryAbility: {instanceID: 0}
   - QuaternaryAbility: {instanceID: 0}
+  - PassiveAbility: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

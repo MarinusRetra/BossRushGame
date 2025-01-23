@@ -10,7 +10,7 @@ namespace BossRush.Classes
     public class JumpAttack : Ability
     {
         public override IEnumerator Do(EntityAbilityData entityAbilityData, AbilityData abilityData, float baseDmg, Transform entityTransform,
-            Action<bool> callBack)
+            Action<bool> callBack = null)
         {
             bool jumped = false;
             bool regrounded = false;
@@ -65,10 +65,11 @@ namespace BossRush.Classes
                 }
                 
                 //  Makes the callBack return true to let the entity know they can use an ability again
-                callBack.Invoke(true);
 
                 yield return null;
             }
+            
+            callBack.Invoke(true);
         }
     }
 }

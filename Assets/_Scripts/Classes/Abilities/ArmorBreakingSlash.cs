@@ -11,7 +11,7 @@ namespace BossRush.Classes
     {
         public override IEnumerator Do(EntityAbilityData entityAbilityData, AbilityData abilityData, float baseDmg,
             Transform entityTransform,
-            Action<bool> callBack)
+            Action<bool> callBack = null)
         {
             //  Checks if the animationClip equals null else it will default to a duration of 1 second.
             var timer = abilityData.Clip != null ? abilityData.Clip.length : 1f;
@@ -29,10 +29,6 @@ namespace BossRush.Classes
                 timer -= Time.deltaTime;
 
                 //  TODO: Implement logic for the animation.
-
-                //  Check if the animation of the ability is over when it is returns True
-                //  so a new ability can be started.
-                if (timer <= 0f) callBack.Invoke(true);
 
                 //  TODO: Delete this if statement if changed to use OnTriggerEnter().
                 //  Skips the dmg step of the while loop if dmg was already dealt.
@@ -56,6 +52,7 @@ namespace BossRush.Classes
                 yield return null;
             }
 
+            callBack.Invoke(true);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace BossRush.Classes
             SecondaryAbility = gameObject.AddComponent<SpinAttack>();
             TertiaryAbility = gameObject.AddComponent<SpinAttack>();
             QuaternaryAbility = gameObject.AddComponent<ArmorBreakingSlash>();
+            PassiveAbility = gameObject.AddComponent<Rage>();
         }
     }
 }
