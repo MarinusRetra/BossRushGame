@@ -62,8 +62,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3606063663
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1213942409
+  InScenePlacedSourceGlobalObjectIdHash: 3209093519
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
@@ -119,9 +119,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4511ad3e7d221224f974ad09d0272e42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  Data: {fileID: 11400000, guid: 02fabdac4ab32db4e88426b6278ae05d, type: 2}
+  <Data>k__BackingField: {fileID: 11400000, guid: 02fabdac4ab32db4e88426b6278ae05d, type: 2}
+  <Level>k__BackingField: 0
   PrimaryAbility: {fileID: 0}
   SecondaryAbility: {fileID: 0}
   TertiaryAbility: {fileID: 0}
   QuaternaryAbility: {fileID: 0}
+  PassiveAbility: {fileID: 0}

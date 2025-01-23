@@ -10,10 +10,10 @@ namespace BossRush.Classes
     public abstract class PlayableClass : MonoBehaviour
     {
         [Tooltip("The data object containing configuration and stats for this playable class.")]
-        [SerializeField] public PlayableClassData Data { get; protected set; }
+        [field: SerializeField]public PlayableClassData Data { get; protected set; }
 
         [Tooltip("The current level of this playable class instance.")]
-        public int Level { get; protected set; } = 0;
+        [field: SerializeField]public int Level { get; protected set; } = 0;
 
         [Tooltip("The primary ability of the class.")]
         public Ability PrimaryAbility;
@@ -26,6 +26,9 @@ namespace BossRush.Classes
 
         [Tooltip("The quaternary ability of the class.")]
         public Ability QuaternaryAbility;
+
+        [Tooltip("The passive ability the class has")]
+        public PassiveAbility PassiveAbility;
 
         /// <summary>
         /// Add all instances for the abilities here keep in mind the class

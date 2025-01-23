@@ -6,10 +6,25 @@ using UnityEngine;
 
 namespace BossRush.Classes.Abilities
 {
+    [Serializable]
     public struct EntityAbilityData
     {
         public Animator AnimatorData;
         public Rigidbody Rb;
+        public float DmgMulti;
+        public float AttackSpeedMulti;
+        public bool HasTakenDmg;
+        public float Timer;
+
+        public EntityAbilityData(Animator animatorData, Rigidbody rbData)
+        {
+            AnimatorData = animatorData;
+            Rb = rbData;
+            AttackSpeedMulti = 1f;
+            DmgMulti = 1f;
+            HasTakenDmg = false;
+            Timer = 0f;
+        }
     }
 
     /// <summary>
@@ -27,6 +42,6 @@ namespace BossRush.Classes.Abilities
         /// whether the ability has finished executing.</param>
         /// <returns>An IEnumerator for coroutine-based execution.</returns>
         public abstract IEnumerator Do(EntityAbilityData entityAbilityData, AbilityData abilityData, float baseDmg,
-            Transform entityTransform, System.Action<bool> callBack);
+            Transform entityTransform, System.Action<bool> callBack = null);
     }
 }
